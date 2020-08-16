@@ -101,14 +101,14 @@ pipeline { agent any options{ timeout(time: 10, unit: &#34;MINUTES&#34;) } stage
 <p>First let take for example a Jenkinsfile as bellow:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">pipeline <span style="color:#f92672">{</span>
   agent any
-  
+
   options<span style="color:#f92672">{</span>
     timeout<span style="color:#f92672">(</span>time: <span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> unit: <span style="color:#e6db74">&#34;MINUTES&#34;</span><span style="color:#f92672">)</span>
   <span style="color:#f92672">}</span>
 
   stages <span style="color:#f92672">{</span>
-   
-    <span style="color:#75715e">/* This stage will run for every branch. */</span> 
+
+    <span style="color:#75715e">/* This stage will run for every branch. */</span>
     stage<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;BUILD&#39;</span><span style="color:#f92672">){</span>
       steps<span style="color:#f92672">{</span>
         echo <span style="color:#e6db74">&#39;do something do build&#39;</span>

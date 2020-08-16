@@ -6,7 +6,6 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Aug 2020 13:17:52 -0300</lastBuildDate>
     
 	<atom:link href="https://jrballot.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -18,17 +17,6 @@
       
       <guid>https://jrballot.github.io/about/</guid>
       <description>Júlio is a Computer Engineer based on São Paulo, Brazil. He has being working with Open Source solutions and GNU/Linux systems since 2008. All started around 2005, during high-school, when he was attending a basic course of informatics and fall for two great areas of technologies: Network and Operational Systems. At a class extra class he was presented to a Debian 4.0 Etch system, which became your main distribution since.</description>
-    </item>
-    
-    <item>
-      <title>Jenkins Multibranch Pipeline</title>
-      <link>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</link>
-      <pubDate>Sun, 16 Aug 2020 13:17:52 -0300</pubDate>
-      
-      <guid>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</guid>
-      <description>This tutorial is going to be a simple and straightforward exmplanation about using Multibranch Pipeline project on Jenkins
-First let take for example a Jenkinsfile as bellow:
-pipeline { agent any options{ timeout(time: 10, unit: &amp;#34;MINUTES&amp;#34;) } stages { /* This stage will run for every branch. */ stage(&amp;#39;BUILD&amp;#39;){ steps{ echo &amp;#39;do something do build&amp;#39; } } /* This stage will only run when the branch running the build is the develop branch.</description>
     </item>
     
   </channel>

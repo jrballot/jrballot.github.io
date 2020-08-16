@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on </title>
-    <link>http://jrballot.github.io/jrballot.github.io/posts/</link>
+    <link>https://jrballot.github.io/posts/</link>
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 16 Aug 2020 13:17:52 -0300</lastBuildDate>
     
-	<atom:link href="http://jrballot.github.io/jrballot.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jrballot.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>My First Post</title>
-      <link>http://jrballot.github.io/jrballot.github.io/posts/my-first-post/</link>
+      <link>https://jrballot.github.io/posts/my-first-post/</link>
       <pubDate>Sun, 16 Aug 2020 13:17:52 -0300</pubDate>
       
-      <guid>http://jrballot.github.io/jrballot.github.io/posts/my-first-post/</guid>
+      <guid>https://jrballot.github.io/posts/my-first-post/</guid>
       <description>This is a simple test of deployment using Hugo blog/site platform deployed to Github pages echo &amp;quot;some code goes here&amp;quot;  Nodes are also importante
  The Jenkinsfile
 pipeline { agent any options{ timeout(time: 10, unit: &amp;#34;MINUTES&amp;#34;) } stages { stage(&amp;#39;BUILD&amp;#39;){ steps{ sh &amp;#39;sleep 15&amp;#39; } } } } </description>

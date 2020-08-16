@@ -91,12 +91,12 @@
   
   <div class="post animated fadeInDown">
     <div class="post-title">
-      <h3><a href="/posts/my-first-post/">My First Post</a>
+      <h3><a href="/posts/jenkins-multibranch-pipeline/">Jenkins Multibranch Pipeline</a>
       </h3>
     </div>
-    <div class="post-content"><div class="p_part"><p>This is a simple test of deployment using Hugo blog/site platform deployed to Github pages echo &quot;some code goes here&quot;  Nodes are also importante
- The Jenkinsfile
-pipeline { agent any options{ timeout(time: 10, unit: &#34;MINUTES&#34;) } stages { stage(&#39;BUILD&#39;){ steps{ sh &#39;sleep 15&#39; } } } } </p></div>
+    <div class="post-content"><div class="p_part"><p>This tutorial is going to be a simple and straightforward exmplanation about using Multibranch Pipeline project on Jenkins
+First let take for example a Jenkinsfile as bellow:
+pipeline { agent any options{ timeout(time: 10, unit: &#34;MINUTES&#34;) } stages { /* This stage will run for every branch. */ stage(&#39;BUILD&#39;){ steps{ echo &#39;do something do build&#39; } } /* This stage will only run when the branch running the build is the develop branch.</p></div>
   
   <div class="p_part"><p></p></div></div>
     <div class="post-footer">

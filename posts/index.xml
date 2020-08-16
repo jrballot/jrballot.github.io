@@ -12,14 +12,14 @@
     
     
     <item>
-      <title>My First Post</title>
-      <link>https://jrballot.github.io/posts/my-first-post/</link>
+      <title>Jenkins Multibranch Pipeline</title>
+      <link>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</link>
       <pubDate>Sun, 16 Aug 2020 13:17:52 -0300</pubDate>
       
-      <guid>https://jrballot.github.io/posts/my-first-post/</guid>
-      <description>This is a simple test of deployment using Hugo blog/site platform deployed to Github pages echo &amp;quot;some code goes here&amp;quot;  Nodes are also importante
- The Jenkinsfile
-pipeline { agent any options{ timeout(time: 10, unit: &amp;#34;MINUTES&amp;#34;) } stages { stage(&amp;#39;BUILD&amp;#39;){ steps{ sh &amp;#39;sleep 15&amp;#39; } } } } </description>
+      <guid>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</guid>
+      <description>This tutorial is going to be a simple and straightforward exmplanation about using Multibranch Pipeline project on Jenkins
+First let take for example a Jenkinsfile as bellow:
+pipeline { agent any options{ timeout(time: 10, unit: &amp;#34;MINUTES&amp;#34;) } stages { /* This stage will run for every branch. */ stage(&amp;#39;BUILD&amp;#39;){ steps{ echo &amp;#39;do something do build&amp;#39; } } /* This stage will only run when the branch running the build is the develop branch.</description>
     </item>
     
   </channel>

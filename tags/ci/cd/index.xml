@@ -16,7 +16,7 @@
       <pubDate>Sun, 16 Aug 2020 13:17:52 -0300</pubDate>
       
       <guid>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</guid>
-      <description>This tutorial is going to be a simple and straightforward exmplanation about using Multibranch Pipeline project on Jenkins
+      <description>This tutorial is going to be a simple and straightforward explanation about using Multibranch Pipeline project on Jenkins
 First let take for example a Jenkinsfile as bellow:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29  pipeline { agent any options{ timeout(time: 10, unit: &amp;#34;MINUTES&amp;#34;) } stages { /* This stage will run for every branch.</description>
     </item>

@@ -23,31 +23,11 @@
   </url>
   
   <url>
-    <loc>https://jrballot.github.io/tags/jenkins/</loc>
-    <lastmod>2020-08-16T13:17:52-03:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jrballot.github.io/posts/jenkins-multibranch-pipeline/</loc>
-    <lastmod>2020-08-16T13:17:52-03:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jrballot.github.io/tags/pipeline/</loc>
-    <lastmod>2020-08-16T13:17:52-03:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jrballot.github.io/tags/</loc>
-    <lastmod>2020-08-16T13:17:52-03:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://jrballot.github.io/categories/</loc>
   </url>
   
   <url>
-    <loc>https://jrballot.github.io/tags/ci/cd/</loc>
+    <loc>https://jrballot.github.io/tags/</loc>
   </url>
   
 </urlset>

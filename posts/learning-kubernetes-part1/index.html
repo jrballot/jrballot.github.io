@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme=""><head>
+    <title> Júlio Ballot | Learning Kubernetes Part 1 </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.74.3" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="">
+    
+    <link rel="stylesheet" href="https://jrballot.github.io/css/style.min.5be3a155aa89a24586c761b1b5538c4040e3735ee32ac12a708dc1696c0982f5.css" integrity="sha256-W&#43;OhVaqJokWGx2GxtVOMQEDjc17jKsEqcI3BaWwJgvU=" crossorigin="anonymous" type="text/css"><link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://jrballot.github.io/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jrballot.github.io/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jrballot.github.io/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jrballot.github.io/favicons/favicon-16x16.png">
+    <link rel="canonical" href="https://jrballot.github.io/posts/learning-kubernetes-part1/">
+    
+    
+    <script type="text/javascript" src="https://jrballot.github.io/js/anatole-header.min.7e2fc0724240b28c6e214687e73a4a6eb6c196bbace546b9dc86e94cca120b5c.js" integrity="sha256-fi/AckJAsoxuIUaH5zpKbrbBlrus5Ua53IbpTMoSC1w=" crossorigin="anonymous"></script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning Kubernetes Part 1"/>
+<meta name="twitter:description" content="Hi!,
+In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.
+So lets start &hellip;
+First, the concepts One of the things that I like to do before deep dive in any piece of technology, is GET THE CONCEPTS RIGHT and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use."/>
+
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://jrballot.github.io/images/profile.jpg" alt="profile picture">
+        <h3 title=""><a href="/">Hi! This is Júlio Ballot</a></h3>
+        <div class="description">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+        <li>
+        <a href="https://www.linkedin.com/in/julioballot/" rel="me" aria-label="LinkedIn">
+          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="https://github.com/jrballot" rel="me" aria-label="GitHub">
+          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="mailto:julio.ballot@gmail.com" rel="me" aria-label="e-mail">
+          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; Júlio Ballot 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false" >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    <ul class="nav" id="navMenu">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+        
+        <li class="theme-switch-item">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+        </li>
+    </ul>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>Learning Kubernetes Part 1
+        </h3>
+        
+        </div>
+
+    <p>Hi!,</p>
+<p>In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.</p>
+<p>So lets start &hellip;</p>
+<h1 id="first-the-concepts">First, the concepts</h1>
+<p>One of the things that I like to do before deep dive in any piece of technology, is <strong>GET THE CONCEPTS RIGHT</strong> and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use. Understanding the basic components of it will help you on not getting lost and discussing about advanced topics. Learn to  work, talk and explain things to others learning the same tool can help you a lot in this step.</p>
+<p>So lets start by understanding what is Kubernetes.</p>
+<h1 id="kubernetes">Kubernetes</h1>
+<p>Kubernetes is a orchestration tool that allow us to manage containerized applications across a group of nodes. Not only providing mechanisms to quickly run those but also how to update, deploy and provide access to them.</p>
+<p>It&rsquo;s origin come from Borg a distributed container system created by Google in the early 2000s with the objective of manage distributed systems in place of a huge number of VM that ware consuming their datacenters. You could find more about Borg in the <a href="https://landing.google.com/sre/sre-book/toc/index.html">Site Reliability Engineering</a> book.</p>
+<p>Now lets jump into its architecture. As I mention Kubernetes is distributed solution, so it means that we aspect to have a set o different components talking to each other in order to provide some kind of service, and also each individual component service a single purpose. So, here are those guys:</p>
+<ul>
+<li>kube-concoller-manager</li>
+<li>cloud-controller-manager</li>
+<li>kube-apiserver</li>
+<li>etcd</li>
+<li>kube-scheduler</li>
+<li>kubelet</li>
+<li>kube-proxy</li>
+</ul>
+<p>This list can be separated in two different groups, those running on the Kubernetes Master Nodes and the others running on the Kubernetes Minions Nodes:</p>
+<table>
+<thead>
+<tr>
+<th>Master</th>
+<th>Minions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kube-concoller-manager</td>
+<td>kubelet</td>
+</tr>
+<tr>
+<td>cloud-controller-manager</td>
+<td>kube-proxy</td>
+</tr>
+<tr>
+<td>kube-apiserver</td>
+<td></td>
+</tr>
+<tr>
+<td>etcd</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-scheduler</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>As I mention it component has a specific purpose, for example <strong>kube-controller-manager</strong> which is a core controller for the k8s environemnt, always checking if the current state of the cluster match its specifications and if not it will call other controllers to guarantee this state. The other components are:</p>
+<ul>
+<li>
+<p><strong>kube-apiserver</strong>: This is the central component, responsible for dealing with all the requests inside/outside the cluster. It is also the only talking to the <strong>etcd</strong>.</p>
+</li>
+<li>
+<p><strong>etcd</strong>: The state of the cluster need to be kept in one place, and this place is the etcd b-tree key-value store. The etcd only responds to the kube-apiserver.</p>
+</li>
+<li>
+<p><strong>kube-scheduler</strong>: In order to run a Pod you need to find a feasible node for running it, and the scheduler has this function, find the feasible nodes and than scoring them. In this way kube-scheduler will pick the one with the higher score. If it can&rsquo;t find a node the pod will be unscheduled until a feasible node is presented. You can control the scheduling process with the <a href="https://kubernetes.io/docs/reference/scheduling/profiles/">Scheduling Profiles</a> or <a href="https://kubernetes.io/docs/reference/scheduling/policies/">Scheduling Policies</a>.</p>
+</li>
+<li>
+<p><strong>kubelet</strong>: This is the one responsable for the work done on Nodes, it is going to receive the Pod specification and guarantee that the current state of the node matches it.</p>
+</li>
+<li>
+<p><strong>kube-proxy</strong>:  Responsable for managing the network on the node so that the pods and containers has connectivity.</p>
+</li>
+</ul>
+<p>All those components are there for the single purpose of running a Pod and whatever the Pod needs to run, that could be a specific storage, network access, mapping ports, etc.</p>
+<h2 id="but-what-is-a-pod-">But what is a Pod ?</h2>
+<p>A pod is the <strong>smallest unit inside</strong> the kubernetes cluster. That is the explanation, but let go a little deep here, a Pod is a conjunction of managing components that allow a process to run in a isolated environment, those process, in this case containers, have a <strong>shared IP address, Namespace and Storage</strong>. Normally you would see a single container running on a pod, but it really depends on the kind of architecture and configuration you are trying to reach. So basically a Pod has one or more containers running inside, sharing network and storage so that you can run your application.</p>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>Thanking by example the image bellow:</p>
+<figure>
+    <img src="/images/k8s-architecture.png"/> 
+</figure>
+
+<p>So, here we have a classic diagram from Kubernetes Documentation, I just put some Pods to better illustrate all the components in a K8S environment. At the master nodes we have the core <strong>kube-apiserver</strong> dealing with request from controllers (CCM and CM), talking with the etcd store to key all data related to the current state of the cluster, we also have the scheduler that is going to find an appropriate node for our Pods. At the nodes side we have the <strong>kubelet</strong> responsible for providing all the needs for our Pod and <strong>kube-proxy</strong> that is going to provide access to it. At the very end we&rsquo;ll have the Pods running inside a specific <strong>Namespace</strong> on the Nodes.</p>
+<p>That is for now,</p>
+<p>Thanks for reading :)</p>
+
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://jrballot.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://jrballot.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://jrballot.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>

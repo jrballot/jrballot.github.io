@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme=""><head>
+    <title> Júlio Ballot | Learning Kubernetes Part2 </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.74.3" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="">
+    
+    <link rel="stylesheet" href="https://jrballot.github.io/css/style.min.5be3a155aa89a24586c761b1b5538c4040e3735ee32ac12a708dc1696c0982f5.css" integrity="sha256-W&#43;OhVaqJokWGx2GxtVOMQEDjc17jKsEqcI3BaWwJgvU=" crossorigin="anonymous" type="text/css"><link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://jrballot.github.io/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jrballot.github.io/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jrballot.github.io/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jrballot.github.io/favicons/favicon-16x16.png">
+    <link rel="canonical" href="https://jrballot.github.io/posts/learning-kubernetes-part2/">
+    
+    
+    <script type="text/javascript" src="https://jrballot.github.io/js/anatole-header.min.7e2fc0724240b28c6e214687e73a4a6eb6c196bbace546b9dc86e94cca120b5c.js" integrity="sha256-fi/AckJAsoxuIUaH5zpKbrbBlrus5Ua53IbpTMoSC1w=" crossorigin="anonymous"></script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning Kubernetes Part2"/>
+<meta name="twitter:description" content="Hello!!!
+We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.
+Lets start&hellip;
+Vagrant for Virtual Labs At this point I am quiet familiar with virtual environment because I&rsquo;ve being working with OpenStack and this leads me to study a little bit about KVM, SDNs, virtualization concepts like Namespaces, Chroot and others."/>
+
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://jrballot.github.io/images/profile.jpg" alt="profile picture">
+        <h3 title=""><a href="/">Hi! This is Júlio Ballot</a></h3>
+        <div class="description">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+        <li>
+        <a href="https://www.linkedin.com/in/julioballot/" rel="me" aria-label="LinkedIn">
+          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="https://github.com/jrballot" rel="me" aria-label="GitHub">
+          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="mailto:julio.ballot@gmail.com" rel="me" aria-label="e-mail">
+          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; Júlio Ballot 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false" >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    <ul class="nav" id="navMenu">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+        
+        <li class="theme-switch-item">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+        </li>
+    </ul>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>Learning Kubernetes Part2
+        </h3>
+        
+        </div>
+
+    <p>Hello!!!</p>
+<p>We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.</p>
+<p>Lets start&hellip;</p>
+<h1 id="vagrant-for-virtual-labs">Vagrant for Virtual Labs</h1>
+<p>At this point I am quiet familiar with virtual environment because I&rsquo;ve being working with OpenStack and this leads me to study a little bit about KVM, SDNs, virtualization concepts like Namespaces, Chroot and others. But what Vagrant have to do with all this things ? Nothing at all, but it allows me to quickly set up a environment without needing to know much about those things and how they go together to make a useful virtual machine.</p>
+<p>Vagrant is production from Hashicorp, the same company behind Terraform, Consul, Vault and other great tools. It&rsquo;s solves a particular problem that is creating testing labs, virtual environments for development and studing. Vagrant does that by talking to a <strong>provider</strong> that can be a VirtualBox, Libvirt, VMWare, HyperV and others. It can also connect directly to DigitalOcean and manage your environment.</p>
+<p>So, go to the project website and look at the documentation for more informantiom about how to install and use it. It  REALLY worth it.</p>
+<h1 id="using-vagrant-for-kubernetes-lab">Using Vagrant for Kubernetes lab</h1>
+<p>If your are already familiar with Vagrant and Virtualbox, and have everything installed, you will not be a strange to the following content.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">machines</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#4e9a06">&#34;master01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;11&#34;</span><span style="color:#000;font-weight:bold">},</span>
+<span style="color:#8f5902;font-style:italic">#  &#34;master02&#34; =&gt; {&#34;vcpus&#34; =&gt; &#34;2&#34;, &#34;memory&#34; =&gt; &#34;2048&#34;, &#34;ip&#34; =&gt; &#34;12&#34;},</span>
+<span style="color:#8f5902;font-style:italic">#  &#34;master03&#34; =&gt; {&#34;vcpus&#34; =&gt; &#34;2&#34;, &#34;memory&#34; =&gt; &#34;2048&#34;, &#34;ip&#34; =&gt; &#34;13&#34;},</span>
+  <span style="color:#4e9a06">&#34;node01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;21&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;node02&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;22&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;node03&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;23&#34;</span><span style="color:#000;font-weight:bold">},</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;debian/buster64&#34;</span>
+
+  <span style="color:#000">machines</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">each</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#204a87">name</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">|</span>
+      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;public_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;10.42.0.</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">.example.org&#34;</span>
+      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provider</span> <span style="color:#4e9a06">&#34;virtualbox&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">|</span>
+        <span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">cpus</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;vcpus&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+        <span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">memory</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;memory&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+        <span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+        <span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">gui</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">false</span>
+      <span style="color:#204a87;font-weight:bold">end</span>
+
+      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;shell&#34;</span><span style="color:#000;font-weight:bold">,</span>
+        <span style="color:#4e9a06">run</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;always&#34;</span><span style="color:#000;font-weight:bold">,</span>
+        <span style="color:#4e9a06">inline</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sudo ip route replace default via 10.42.0.1 dev eth1 onlink&#34;</span>
+
+    <span style="color:#204a87;font-weight:bold">end</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+ 
+<span style="color:#204a87;font-weight:bold">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This is a simple Vagrantfile that I am going to use to create the Kubernetes environment. You can see that I have a <code>machines</code> dictionary that holds the configuration for each VM in this lab. So, what it&rsquo;s doing ? Basically we are setting up a one master three nodes lab, we are going to have at this moment a k8s master e 3 nodes/minions for running our Pods.</p>
+<p>One very important observation that I need to make is about the provisioning block at the very end. Because <strong>kubeadm</strong> will try to use the NIC associated with the default route, and in a vagrant lab this is the eth0 interface running as NAT with no communication with other interfaces but the gateway, in this the host machine, I replaced the gateway so to use the eth1 interface that is in a Public Network, which means Bridge Interface on VirtualBox, which I have the other nodes configures. Long story short, kubeadm will try to use the 10.0.2.15 address for all address that the whole cluster use for configuration, problem is that every single machine has this address configured in the eth0 interface so a node will try to contact the master that is local, for &ldquo;him&rdquo;, and will not get any response leading to errors and a not functional Kubernetes cluster.</p>
+<p>So, if it was clear for you, just fire up the <code>vagrant up</code> command and you will have a lab read to have a kubernetes cluster deployed.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ vagrant up
+--------after some <span style="color:#204a87">time</span>
+
+$ vagrant status
+Current machine states:
+
+master01                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+master02                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+master03                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+node01                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+node02                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+node03                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://jrballot.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://jrballot.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://jrballot.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>

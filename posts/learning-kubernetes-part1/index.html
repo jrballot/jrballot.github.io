@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,7 +7,7 @@
 <title>
   
      Learning Kubernetes Part 1 | 
-    
+    Júlio Ballot
   
 </title><meta name="author" content="Júlio Ballot">
 
@@ -33,33 +33,30 @@
 <link rel="canonical" href="https://jrballot.github.io/posts/learning-kubernetes-part1/"><meta property="og:title" content="Learning Kubernetes Part 1" />
 <meta property="og:description" content="Hi!,
 In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.
-So lets start &hellip;
-First, the concepts One of the things that I like to do before deep dive in any piece of technology, is GET THE CONCEPTS RIGHT and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use." />
+So lets start &hellip;" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jrballot.github.io/posts/learning-kubernetes-part1/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-08-17T08:05:17-03:00" />
-<meta property="article:modified_time" content="2020-08-17T08:05:17-03:00" /><meta property="og:site_name" content="Hi! This is Júlio Ballot" />
+<meta property="article:modified_time" content="2020-08-17T08:05:17-03:00" />
 
 <meta itemprop="name" content="Learning Kubernetes Part 1">
 <meta itemprop="description" content="Hi!,
 In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.
-So lets start &hellip;
-First, the concepts One of the things that I like to do before deep dive in any piece of technology, is GET THE CONCEPTS RIGHT and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use."><meta itemprop="datePublished" content="2020-08-17T08:05:17-03:00" />
+So lets start &hellip;"><meta itemprop="datePublished" content="2020-08-17T08:05:17-03:00" />
 <meta itemprop="dateModified" content="2020-08-17T08:05:17-03:00" />
 <meta itemprop="wordCount" content="825">
 <meta itemprop="keywords" content="kubernetes,k8s," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Learning Kubernetes Part 1"/>
 <meta name="twitter:description" content="Hi!,
 In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.
-So lets start &hellip;
-First, the concepts One of the things that I like to do before deep dive in any piece of technology, is GET THE CONCEPTS RIGHT and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use."/>
+So lets start &hellip;"/>
 
 </head>
 <body>
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="https://jrballot.github.io/"></a>
+        <a class="navbar-brand font-weight-bold" href="https://jrballot.github.io/">Júlio Ballot</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -68,9 +65,9 @@ First, the concepts One of the things that I like to do before deep dive in any 
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-                    <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
-                
                     <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
                 
             
             </ul>
@@ -172,7 +169,6 @@ First, the concepts One of the things that I like to do before deep dive in any 
 <p>So, here we have a classic diagram from Kubernetes Documentation, I just put some Pods to better illustrate all the components in a K8S environment. At the master nodes we have the core <strong>kube-apiserver</strong> dealing with request from controllers (CCM and CM), talking with the etcd store to key all data related to the current state of the cluster, we also have the scheduler that is going to find an appropriate node for our Pods. At the nodes side we have the <strong>kubelet</strong> responsible for providing all the needs for our Pod and <strong>kube-proxy</strong> that is going to provide access to it. At the very end we&rsquo;ll have the Pods running inside a specific <strong>Namespace</strong> on the Nodes.</p>
 <p>That is for now,</p>
 <p>Thanks for reading :)</p>
-
                         </div>
                     </div>
                 </div>
@@ -187,12 +183,33 @@ First, the concepts One of the things that I like to do before deep dive in any 
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    
+                    <li class="list-inline-item">
+                        <a href="mailto:julio.ballot@gmail.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/jrballot" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/julioballot/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
                 </ul>
 
                 <p class="text-muted">
                     
-                        Copyright &copy;  2021
+                        Copyright &copy; Júlio Ballot 2021
                     
                 </p>
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on </title>
+    <title>kubernetes on Júlio Ballot</title>
     <link>https://jrballot.github.io/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on </description>
+    <description>Recent content in kubernetes on Júlio Ballot</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     <lastBuildDate>Mon, 17 Aug 2020 08:05:17 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning Kubernetes Part 1</title>
@@ -13,10 +13,9 @@
       <pubDate>Mon, 17 Aug 2020 08:05:17 -0300</pubDate>
       
       <guid>https://jrballot.github.io/posts/learning-kubernetes-part1/</guid>
-      <description>Hi!,
-In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.
-So lets start &amp;hellip;
-First, the concepts One of the things that I like to do before deep dive in any piece of technology, is GET THE CONCEPTS RIGHT and by that I mean learn the fundamentals basics that distinguish this tool you are learning from others that you already use.</description>
+      <description>&lt;p&gt;Hi!,&lt;/p&gt;
+&lt;p&gt;In this post I will start a series about my process learning Kubernetes. This is not meant to be a series of tutorials but rather a diary about me exploring some of the concepts and tools used for leveraging the use of container orchestration solutions as k8s for the.&lt;/p&gt;
+&lt;p&gt;So lets start &amp;hellip;&lt;/p&gt;</description>
     </item>
     
   </channel>

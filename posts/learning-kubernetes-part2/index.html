@@ -1,105 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" data-theme=""><head>
-    <title> Júlio Ballot | Learning Kubernetes Part2 </title>
-    <meta charset="utf-8"><meta name="generator" content="Hugo 0.74.3" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <meta name="description" content="">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Learning Kubernetes Part2 | 
+    Júlio Ballot
+  
+</title><meta name="description" content="... the advance of a non existent necessity"><meta name="author" content="Júlio Ballot">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
     
-    <link rel="stylesheet" href="https://jrballot.github.io/css/style.min.5be3a155aa89a24586c761b1b5538c4040e3735ee32ac12a708dc1696c0982f5.css" integrity="sha256-W&#43;OhVaqJokWGx2GxtVOMQEDjc17jKsEqcI3BaWwJgvU=" crossorigin="anonymous" type="text/css"><link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
     
-    <link rel="shortcut icon" href="https://jrballot.github.io/favicons/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://jrballot.github.io/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://jrballot.github.io/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://jrballot.github.io/favicons/favicon-16x16.png">
-    <link rel="canonical" href="https://jrballot.github.io/posts/learning-kubernetes-part2/">
-    
-    
-    <script type="text/javascript" src="https://jrballot.github.io/js/anatole-header.min.7e2fc0724240b28c6e214687e73a4a6eb6c196bbace546b9dc86e94cca120b5c.js" integrity="sha256-fi/AckJAsoxuIUaH5zpKbrbBlrus5Ua53IbpTMoSC1w=" crossorigin="anonymous"></script>
-    <meta name="twitter:card" content="summary"/>
+
+
+
+
+<link rel="canonical" href="https://jrballot.github.io/posts/learning-kubernetes-part2/"><meta property="og:title" content="Learning Kubernetes Part2" />
+<meta property="og:description" content="We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.
+Lets start&hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jrballot.github.io/posts/learning-kubernetes-part2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-24T19:59:24-03:00" />
+<meta property="article:modified_time" content="2020-10-24T19:59:24-03:00" />
+
+<meta itemprop="name" content="Learning Kubernetes Part2">
+<meta itemprop="description" content="We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.
+Lets start&hellip;"><meta itemprop="datePublished" content="2020-10-24T19:59:24-03:00" />
+<meta itemprop="dateModified" content="2020-10-24T19:59:24-03:00" />
+<meta itemprop="wordCount" content="1893">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Learning Kubernetes Part2"/>
-<meta name="twitter:description" content="Hello!!!
-We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.
-Lets start&hellip;
-Vagrant for Virtual Labs At this point I am quiet familiar with virtual environment because I&rsquo;ve being working with OpenStack and this leads me to study a little bit about KVM, SDNs, virtualization concepts like Namespaces, Chroot and others."/>
+<meta name="twitter:description" content="We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.
+Lets start&hellip;"/>
 
-</head><body><div class="sidebar animated fadeInDown">
-    <div class="logo-title">
-      <div class="title">
-        <img src="https://jrballot.github.io/images/profile.jpg" alt="profile picture">
-        <h3 title=""><a href="/">Hi! This is Júlio Ballot</a></h3>
-        <div class="description">
-          <p></p>
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://jrballot.github.io/">Júlio Ballot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
+                
+            
+            </ul>
         </div>
-      </div>
     </div>
-    <ul class="social-links">
-        
-        <li>
-        <a href="https://www.linkedin.com/in/julioballot/" rel="me" aria-label="LinkedIn">
-          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
-        </a>          
-        </li>
+</nav>
 
-        
-        <li>
-        <a href="https://github.com/jrballot" rel="me" aria-label="GitHub">
-          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
-        </a>          
-        </li>
 
-        
-        <li>
-        <a href="mailto:julio.ballot@gmail.com" rel="me" aria-label="e-mail">
-          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
-        </a>          
-        </li>
+    
+<main class="content-page container pt-7 pb-5">
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">Learning Kubernetes Part2</h2>
 
-        
-    </ul>
-    <div class="footer">
-        <div class="by_farbox">&copy; Júlio Ballot 2020 </div>
-      </div>
-    </div>
-</div><div class="main">
-            <div class="page-top animated fadeInDown">
-    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false" >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    <ul class="nav" id="navMenu">
-        
-        
-        
-        <li><a  href="/" title="">Home</a></li>
-        
-        
-        <li><a  href="/posts/" title="">Posts</a></li>
-        
-        
-        <li><a  href="/about/" title="">About</a></li>
-        
-        
-        <li class="theme-switch-item">
-        <a class="theme-switch" title="Switch Theme">
-            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
-        </a>
-        </li>
-    </ul>
-</div>
-
-            <div class="autopagerize_page_element">
-                <div class="content">
-<div class="post animated fadeInDown">
-    <div class="post-content">
-
-      <div class="post-title">
-        <h3>Learning Kubernetes Part2
-        </h3>
-        
-        </div>
-
-    <p>Hello!!!</p>
-<p>We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.</p>
+                        <div class="content">
+                            <p>We are back in this series of posts about k8s, this is the second post related to my jouney trying to learn it. In this one we are going to fire up a cluster from zero using a virtual environment created using Vagrant and VirtualBox.</p>
 <p>Lets start&hellip;</p>
 <h1 id="vagrant-for-virtual-labs">Vagrant for Virtual Labs</h1>
 <p>At this point I am quiet familiar with virtual environment because I&rsquo;ve being working with OpenStack and this leads me to study a little bit about KVM, SDNs, virtualization concepts like Namespaces, Chroot and others. But what Vagrant have to do with all this things ? Nothing at all, but it allows me to quickly set up a environment without needing to know much about those things and how they go together to make a useful virtual machine.</p>
@@ -137,18 +121,12 @@ Vagrant for Virtual Labs At this point I am quiet familiar with virtual environm
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">machines</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
-  <span style="color:#4e9a06">&#34;master01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;11&#34;</span><span style="color:#000;font-weight:bold">},</span>
-<span style="color:#8f5902;font-style:italic">#  &#34;master02&#34; =&gt; {&#34;vcpus&#34; =&gt; &#34;2&#34;, &#34;memory&#34; =&gt; &#34;2048&#34;, &#34;ip&#34; =&gt; &#34;12&#34;},</span>
-<span style="color:#8f5902;font-style:italic">#  &#34;master03&#34; =&gt; {&#34;vcpus&#34; =&gt; &#34;2&#34;, &#34;memory&#34; =&gt; &#34;2048&#34;, &#34;ip&#34; =&gt; &#34;13&#34;},</span>
-  <span style="color:#4e9a06">&#34;node01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;21&#34;</span><span style="color:#000;font-weight:bold">},</span>
-  <span style="color:#4e9a06">&#34;node02&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;22&#34;</span><span style="color:#000;font-weight:bold">},</span>
-  <span style="color:#4e9a06">&#34;node03&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;23&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;master01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;192.168.0.20&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;node01&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;192.168.0.21&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;node02&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;vcpus&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;memory&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;2048&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;ip&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#4e9a06">&#34;192.168.0.22&#34;</span><span style="color:#000;font-weight:bold">},</span>
 <span style="color:#000;font-weight:bold">}</span>
 
 <span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
@@ -156,7 +134,7 @@ Vagrant for Virtual Labs At this point I am quiet familiar with virtual environm
 
   <span style="color:#000">machines</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">each</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#204a87">name</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">|</span>
     <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">|</span>
-      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;public_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;10.42.0.</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+      <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;public_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
       <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">.example.org&#34;</span>
       <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provider</span> <span style="color:#4e9a06">&#34;virtualbox&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">|</span>
         <span style="color:#000">vb</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">cpus</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;vcpus&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
@@ -167,7 +145,7 @@ Vagrant for Virtual Labs At this point I am quiet familiar with virtual environm
 
       <span style="color:#000">machine</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;shell&#34;</span><span style="color:#000;font-weight:bold">,</span>
         <span style="color:#4e9a06">run</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;always&#34;</span><span style="color:#000;font-weight:bold">,</span>
-        <span style="color:#4e9a06">inline</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sudo ip route replace default via 10.42.0.1 dev eth1 onlink&#34;</span>
+        <span style="color:#4e9a06">inline</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sudo ip route replace default via 192.168.0.1 dev eth1 onlink&#34;</span>
 
     <span style="color:#204a87;font-weight:bold">end</span>
   <span style="color:#204a87;font-weight:bold">end</span>
@@ -175,9 +153,84 @@ Vagrant for Virtual Labs At this point I am quiet familiar with virtual environm
 <span style="color:#204a87;font-weight:bold">end</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>This is a simple Vagrantfile that I am going to use to create the Kubernetes environment. You can see that I have a <code>machines</code> dictionary that holds the configuration for each VM in this lab. So, what it&rsquo;s doing ? Basically we are setting up a one master three nodes lab, we are going to have at this moment a k8s master e 3 nodes/minions for running our Pods.</p>
-<p>One very important observation that I need to make is about the provisioning block at the very end. Because <strong>kubeadm</strong> will try to use the NIC associated with the default route, and in a vagrant lab this is the eth0 interface running as NAT with no communication with other interfaces but the gateway, in this the host machine, I replaced the gateway so to use the eth1 interface that is in a Public Network, which means Bridge Interface on VirtualBox, which I have the other nodes configures. Long story short, kubeadm will try to use the 10.0.2.15 address for all address that the whole cluster use for configuration, problem is that every single machine has this address configured in the eth0 interface so a node will try to contact the master that is local, for &ldquo;him&rdquo;, and will not get any response leading to errors and a not functional Kubernetes cluster.</p>
+</div><p>This is a simple Vagrantfile that I am going to use to create the Kubernetes environment. You can see that I have a <code>machines</code> dictionary that holds the configuration for each VM in this lab. So, what it&rsquo;s doing ? Basically we are setting up a one master two nodes lab, we are going to have at this moment a k8s master and 2 nodes/minions for running our Pods.</p>
+<p>One very important observation that I need to make is about the provisioning block at the very end. Because <strong>kubeadm</strong> will try to use the NIC associated with the default route, and in a vagrant lab this is the eth0 interface running as NAT with no communication with other interfaces but the gateway, in this the host machine, I replaced the gateway so to use the eth1 interface that is in a Public Network, which means Bridge Interface on VirtualBox, which I have the other nodes configures. Long story short, kubeadm will try to use the 10.0.2.15 address for all address that the whole cluster use for configuration, problem is that every single machine has this address configured in the eth0 interface so a node will try to contact itself and will not get any response leading to errors and a not functional Kubernetes cluster.</p>
 <p>So, if it was clear for you, just fire up the <code>vagrant up</code> command and you will have a lab read to have a kubernetes cluster deployed.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ vagrant up
+--------after some <span style="color:#204a87">time</span>
+
+$ vagrant status
+Current machine states:
+
+master01                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+node01                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+node02                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Now, lets log on master01 and starts prepping our vm for deploying kubernetes.</p>
+<h1 id="prepping-for-kubernetes-deployment">Prepping for Kubernetes Deployment</h1>
+<p>Before we deploy the cluster using the new tool <code>kuberadm</code>, new for the vertion 19 released in September 2020, we need to do some preparation on the VM, those are:</p>
+<ul>
+<li>Disable swap</li>
+<li>Load some  modules</li>
+<li>Set some Sysctl variables</li>
+<li>Add needed repositories</li>
+<li>Install CRI-O repository and keys</li>
+<li>Install CRI-O packages</li>
+<li>Add kubernetes repository</li>
+</ul>
+<p>Everything above resume in the following commands:</p>
+<p><strong>Disable swap</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">swapoff -a
+vim /etc/fstab  -- comment out the line related to swap
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Load some modules</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">modprobe overlay
+modprove br_netfilter
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Set some Sysctl variables</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#39;
+</span><span style="color:#4e9a06">net.bridge.bridge-nf-call-iptables  = 1
+</span><span style="color:#4e9a06">net.ipv4.ip_forward                 = 1
+</span><span style="color:#4e9a06">net.bridge.bridge-nf-call-ip6tables = 1&#39;</span> &gt; /etc/sysctl.d/kubernetes.conf
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Install CRI-O repository and keys</strong></p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -190,51 +243,279 @@ Vagrant for Virtual Labs At this point I am quiet familiar with virtual environm
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ vagrant up
---------after some <span style="color:#204a87">time</span>
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">export</span> <span style="color:#000">OS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;Debian_Testing&#34;</span>
+<span style="color:#204a87">export</span> <span style="color:#000">VERSION</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;1.20&#34;</span>
 
-$ vagrant status
-Current machine states:
+<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/</span><span style="color:#000">$OS</span><span style="color:#4e9a06">/ /&#34;</span> &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/</span><span style="color:#000">$VERSION</span><span style="color:#4e9a06">/</span><span style="color:#000">$OS</span><span style="color:#4e9a06">/ /&#34;</span> &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:<span style="color:#000">$VERSION</span>.list
 
-master01                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
-master02                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
-master03                  running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
-node01                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
-node02                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
-node03                    running <span style="color:#ce5c00;font-weight:bold">(</span>virtualbox<span style="color:#ce5c00;font-weight:bold">)</span>
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:<span style="color:#000">$VERSION</span>/<span style="color:#000">$OS</span>/Release.key <span style="color:#000;font-weight:bold">|</span> apt-key add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/<span style="color:#000">$OS</span>/Release.key <span style="color:#000;font-weight:bold">|</span> apt-key add -
+
+apt udpate
 </code></pre></td></tr></table>
 </div>
+</div><p>In this case you need to specify the VERSION and OS variables. You can se the complete guide on how to install CRI-O in this link: <a href="https://cri-o.io/">https://cri-o.io/</a></p>
+<p><strong>Installing CRI-O packages</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt install cri-o cri-o-runc -y
+systemctl <span style="color:#204a87">enable</span> crio
+</code></pre></td></tr></table>
 </div>
-    </div>
-    <div class="post-footer">
-      <div class="info">
-        
-        
-      </div>
-    </div>
-
-    
+</div><p><strong>Kubernetes Repository</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#39;deb http://apt.kubernetes.io/ kubernetes-stretch main&#39;</span> &gt; /etc/apt/source.list.d/kubernetes.list
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg <span style="color:#000;font-weight:bold">|</span> apt-key add -
+apt update
+</code></pre></td></tr></table>
 </div>
+</div><p>Because we are using CRI-O it will be necessary to define a KUBELE_EXTRA_ARGS inside /etc/default/kubelet file. This file doesn&rsquo;t exists so you need to create it with the following content:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">KUBELET_EXTRA_ARGS</span><span style="color:#ce5c00;font-weight:bold">=</span>--feature-gates<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;AllAlpha=false,RunAsGroup=true&#34;</span> --container-runtime<span style="color:#ce5c00;font-weight:bold">=</span>remote --cgroup-driver<span style="color:#ce5c00;font-weight:bold">=</span>systemd --container-runtime-endpoint<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;unix:///var/run/crio/crio.sock&#39;</span> --runtime-request-timeout<span style="color:#ce5c00;font-weight:bold">=</span>5m
+</code></pre></td></tr></table>
+</div>
+</div><p>This way we are telling the <strong>kubelet</strong> service how to communicate with CRI-O.</p>
+<p><strong>Install kubeadm, kubelet and kubectl</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt install -y kubeadm kubectl kubelet
+systemctl <span style="color:#204a87">enable</span> kubelet
+</code></pre></td></tr></table>
+</div>
+</div><p>Another very important thing is to use a DNS, so go to your hosts files and set a name for your master node. you can call it k8smaster01, k8sm1 or just master01 and set it to your eth1&rsquo;s ip address. Do this for all machines in your lab.</p>
+<pre><code>cat /etc/hosts
+192.168.0.20    master01
+192.168.0.21	node01
+192.168.0.22	node02
+</code></pre><p>This step is only necessary for your local lab, a production environment will need to use a DNS Service. If you are using a Kubernetes service on a Cloud provider you will not need to worry about this.</p>
+<p>Your network will be diferent so make ajustments.</p>
+<p>With all this done, we can know start planing the deployment fase.</p>
+<h1 id="deploying-kubernetes">Deploying Kubernetes</h1>
+<p>In order to deploy kubernetes we need to decide which SDN plugin that we are going to use. The recomendation is to go with Calico but you have a lot of <a href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">other options</a></p>
+<p>This SDN sollutions will bring a hack of features for our network, including the segmentation of namespaces, so that we can controls which namespace is allowed to talk which other namespaces.</p>
+<h2 id="installing-calico">Installing Calico</h2>
+<p>Install Calico isn&rsquo;t something complex we just need to download the manifest from Calico&rsquo;s website, define our Pods network and once we have the Kubernetes running we just need to apply this manifest.</p>
+<p><strong>Downloading Calico manifest</strong></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -OL https://docs.projectcalico.org/manifests/calico.yaml
+</code></pre></td></tr></table>
+</div>
+</div><p>Uncomment the <strong>CALICO_IPV4POOL_CIDR</strong> variable and define a value for you Pods network, use something different than your Vagrant lab. This configurations is around line 3672.</p>
+<pre><code># The default IPv4 pool to create on startup if none exists. Pod IPs will be
+# chosen from this range. Changing this value after installation will have
+# no effect. This should fall within `--cluster-cidr`.
+- name: CALICO_IPV4POOL_CIDR
+value: &quot;172.17.0.0/12&quot;
+</code></pre><p>Now, putting this Calico manifest aside lets create our Kubernetes configuration manifest. We are going to use the kubeadm utility to deploy our cluster, if you whant a more in deph process of all the steps it is taking I would recomend checking up the <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes the Hard Way</a> from Kelsey Hightower.</p>
+<h2 id="deploying-kubernetes-with-kubeadm">Deploying Kubernetes with kubeadm</h2>
+<p>So, create a new file called kubeadm-config.yaml with the following content:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">kubeadm.k8s.io/vibeta2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterConfiguration</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kubernetesVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1.20</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">controlPlaneEndpoint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;master01:6443&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">networking</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">podSubner</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">172.17.0.0</span><span style="color:#000">/12</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>With this configuration in plane we can go ahead and fire up <code>kubeadm</code>:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm init --config<span style="color:#ce5c00;font-weight:bold">=</span>kubeadm-config.yaml --upload-certs <span style="color:#000;font-weight:bold">|</span> tee kubeadm-deploy.log
+</code></pre></td></tr></table>
+</div>
+</div><p>If everything goes nice and smooth you will be presented with the folling output:</p>
+<pre><code>[init] Using Kubernetes version: v1.20
+[preflight] Running pre-flight checks
+
+...
+
+You can now join any number of the control-plane node
+running the following command on each as root:
+
+kubeadm join master01:6443 --token vapzqi.et2p9zbkzk29wwth \
+--discovery-token-ca-cert-hash sha256:f62bf97d4fba6876e4c3ff645df3fca969c06169dee3865aab9d0bca8ec9f8cd \
+--control-plane --certificate-key 911d41fcada89a18210489afaa036cd8e192b1f122ebb1b79cce1818f642fab8
+
+Please note that the certificate-key gives access to cluster sensitive
+data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If
+necessary, you can use
+
+&quot;kubeadm init phase upload-certs --upload-certs&quot; to reload certs afterward.
 
 
+Then you can join any number of worker nodes by running the following
+on each as root:
+
+kubeadm join master01:6443 --token vapzqi.et2p9zbkzk29wwth \
+--discovery-token-ca-cert-hash sha256:f62bf97d4fba6876e4c3ff645df3fca969c06169dee3865aab9d0bca8ec9f8cd
+</code></pre><p>Now, this only means that we have a master running, but no nodes yet. This is a very important difference when comparing Kubernetes to Docker Swarm, because in Swarm you can go with only a master and start firing up containers and services, but in Kubernetes you can&rsquo;t do this without certain configurations. So, copy the first <code>kubeadm join mainter01:6443 ...</code> and run it in each node that you want to add to this cluster.</p>
+<h2 id="start-using-you-k8s-cluster">Start using you K8S Cluster</h2>
+<p>With all the configurations and deployment done we are ready to start using the cluster. Firts lets get the credentials and variables set for our kubectl command:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir ~/.kube
+cp /etc/kubernetes/admin.conf ~/.kube/config
+chown <span style="color:#204a87;font-weight:bold">$(</span>id -u<span style="color:#204a87;font-weight:bold">)</span>:<span style="color:#204a87;font-weight:bold">$(</span>id -u<span style="color:#204a87;font-weight:bold">)</span> ~/.kube/config
+</code></pre></td></tr></table>
+</div>
+</div><p>This <code>~/.kube/config</code> file holds all the variables and credentials that kubectl needs to connect and run any commands that we can use in kubernetes. Try type the <code>kubectl get pods --all-namespaces</code> to see if is everything OK with the configurations.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@master01:~# kubectl get pods --all-namespaces
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
+kube-system   coredns-74ff55c5b-xf4pc                    1/1     Running   0          32d
+kube-system   coredns-74ff55c5b-z5j5n                    1/1     Running   0          32d
+kube-system   etcd-master01	                         1/1     Running   0          32d
+kube-system   kube-apiserver-master01		         1/1     Running   0          32d
+kube-system   kube-controller-manager-master01           1/1     Running   0          32d
+kube-system   kube-proxy-6kxg7                           1/1     Running   0          32d
+kube-system   kube-proxy-qfw64                           1/1     Running   0          32d
+kube-system   kube-proxy-rxnm7                           1/1     Running   0          32d
+kube-system   kube-scheduler-master01                    1/1     Running   0          32d
+</code></pre><p>Your READY column may not be with every single item running, for example you could have some problems for you coredns pods. I recomend deleting than with the <code>kubectl -n kube-system delete pod coredns-*</code>, it solved in my case :), also the AGE column has 32 days on it because I forgot to get this output when writing this post :(.</p>
+<p>What you are seeing are all the services that we mention in the first post <a href="https://jrballot.github.io/posts/learning-kubernetes-part1/">Learning Kubernetes Part 1</a>. You have the <strong>kube-proxy</strong> running in each node, the <strong>kube-apiserver</strong> running in the master01 together with the <strong>etcd</strong> database.</p>
+<p>But we still need to deploy the Calico SDN. So, let&rsquo;s do it:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@master01:~# kubectl apply -f calico.yaml
+root@master01:~# kubectl get pods --all-namespaces
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
+kube-system   calico-kube-controllers-744cfdf676-d8h2g   1/1     Running   0          31d
+kube-system   calico-node-fslwj                          1/1     Running   0          31d
+kube-system   calico-node-k2dm7                          1/1     Running   0          32d
+kube-system   calico-node-w92d6                          1/1     Running   0          32d
+kube-system   coredns-74ff55c5b-xf4pc                    1/1     Running   0          32d
+kube-system   coredns-74ff55c5b-z5j5n                    1/1     Running   0          32d
+kube-system   etcd-master01	                         1/1     Running   0          32d
+kube-system   kube-apiserver-master01		         1/1     Running   0          32d
+kube-system   kube-controller-manager-master01           1/1     Running   0          32d
+kube-system   kube-proxy-6kxg7                           1/1     Running   0          32d
+kube-system   kube-proxy-qfw64                           1/1     Running   0          32d
+kube-system   kube-proxy-rxnm7                           1/1     Running   0          32d
+kube-system   kube-scheduler-master01                    1/1     Running   0          32d
+</code></pre><p>I think that it for the deployment. Next post I will try to start using the cluster and explore more about the objects and manifests.</p>
+<p>Thanks for reading :)</p>
+                        </div>
+                    </div>
                 </div>
+            </article>
+        </div>
+    </div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="mailto:julio.ballot@gmail.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/jrballot" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/julioballot/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright &copy; Júlio Ballot 2021
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
             </div>
         </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
 </body>
-
-
-
-<script type="text/javascript" src="https://jrballot.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
-
-
-
-
-<script type="text/javascript" src="https://jrballot.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
-
-<script type="text/javascript" src="https://jrballot.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
-
 </html>

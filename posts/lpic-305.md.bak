@@ -1,0 +1,45 @@
+---
+title: "LPIC 305"
+date: 2021-03-07T20:50:33-03:00
+draft: false
+tags: [
+  "virtualization",
+  "vagrant"
+]
+---
+
+As part of my job as a Consultant I need to get some specific certifications from time to time. And recently I got invited to take the beta exame 305 which is a split from the old **304 - Enterprise Virtualization and High Availability**, creating the **305 - Enterprise Virtualization and Containerization** and **306 - Enterprise High Availability and Cluster Storage**.
+
+<!--more-->
+
+Following are the objectives for this certification (305):
+
+**[305 - Enterprise Virtualization and Containerization](https://wiki.lpi.org/wiki/LPIC-305_Objectives_V3.0)**
+- 4.1 Topic 351: Full Virtualization
+  - 4.1.1 351.1 Virtualization Concepts and Theory (weight: 6)
+  - 4.1.2 351.2 Xen (weight: 3)
+  - 4.1.3 351.3 QEMU (weight: 4)
+  - 4.1.4 351.4 Libvirt Virtual Machine Management (weight: 9)
+  - 4.1.5 351.5 Virtual Machine Disk Image Management (weight: 3)
+- 4.2 Topic 352: Container Virtualization
+  - 4.2.1 352.1 Container Virtualization Concepts (weight: 7)
+  - 4.2.2 352.2 LXC (weight: 6)
+  - 4.2.3 352.3 Docker (weight: 9)
+  - 4.2.4 352.4 Container Orchestration Platforms (weight: 3)
+- 4.3 Topic 353: VM Deployment and Provisioning
+  - 4.3.1 353.1 Cloud Management Tools (weight: 2)
+  - 4.3.2 353.2 Packer (weight: 2)
+  - 4.3.3 353.3 cloud-init (weight: 3)
+  - 4.3.4 353.4 Vagrant (weight: 3)
+ 
+So basically we have 3 main topics: Virtualization, Containers and Deploy and Provision. The latest is a bit of a mix between lab tools like Vagrant and cloud tools like Packer for image creation, cloud-init for customization and some awareness of Cloud Management Tools like OpenStack and Terraform.
+
+The first two topics are focused in Virtualization with classic solutions like QEMU, KVM and Libvirt and Containers with the focus on Docker, LXC and some Container Conpects.
+
+What we can reason from this list is that this certification is for a professional that is working on on-premises virtualization and cloud solutions but is also aware of containers solutions.
+
+In order to study for this certification I will write a post for every item in this list describing step by step what I am using, which labs I'm creating in order to practice and get prepared.
+
+Looking forward for this.
+
+Thanks :)

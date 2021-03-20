@@ -6,14 +6,24 @@
     <description>Recent content in Posts on Júlio Ballot</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Mar 2021 20:50:33 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Mar 2021 10:16:20 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LPIC 305 Vagrant</title>
+      <link>https://jrballot.github.io/posts/lpi-305-vagrant/</link>
+      <pubDate>Wed, 10 Mar 2021 10:16:20 -0300</pubDate>
+      
+      <guid>https://jrballot.github.io/posts/lpi-305-vagrant/</guid>
+      <description>&lt;p&gt;Starting this series of posts related to the new &lt;strong&gt;LPIC-305 Virtualization and Containerization&lt;/strong&gt; exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.&lt;/p&gt;
+&lt;p&gt;So, how it works &amp;hellip;&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>LPIC 305</title>
       <link>https://jrballot.github.io/posts/lpic-305/</link>
       <pubDate>Sun, 07 Mar 2021 20:50:33 -0300</pubDate>
       
       <guid>https://jrballot.github.io/posts/lpic-305/</guid>
-      <description>&lt;p&gt;As part of my job a need to get some specific certifications from time to time. And recently I got invited to take the beta exame 305 which is a split from the old &lt;strong&gt;304 - Enterprise Virtualization and High Availability&lt;/strong&gt;, creating the &lt;strong&gt;305 - Enterprise Virtualization and Containerization&lt;/strong&gt; and &lt;strong&gt;306 - Enterprise High Availability and Cluster Storage&lt;/strong&gt;.&lt;/p&gt;</description>
+      <description>&lt;p&gt;As part of my job as a Consultant I need to get some specific certifications from time to time. And recently I got invited to take the beta exam 305 which is a split from the old &lt;strong&gt;304 - Enterprise Virtualization and High Availability&lt;/strong&gt;, creating the &lt;strong&gt;305 - Enterprise Virtualization and Containerization&lt;/strong&gt; and &lt;strong&gt;306 - Enterprise High Availability and Cluster Storage&lt;/strong&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>

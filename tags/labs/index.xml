@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>labs on Júlio Ballot</title>
+    <link>https://jrballot.github.io/tags/labs/</link>
+    <description>Recent content in labs on Júlio Ballot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 10 Mar 2021 10:16:20 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/tags/labs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LPIC 305 Vagrant</title>
+      <link>https://jrballot.github.io/posts/lpi-305-vagrant/</link>
+      <pubDate>Wed, 10 Mar 2021 10:16:20 -0300</pubDate>
+      
+      <guid>https://jrballot.github.io/posts/lpi-305-vagrant/</guid>
+      <description>&lt;p&gt;Starting this series of posts related to the new &lt;strong&gt;LPIC-305 Virtualization and Containerization&lt;/strong&gt; exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.&lt;/p&gt;
+&lt;p&gt;So, how it works &amp;hellip;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

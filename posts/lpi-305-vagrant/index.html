@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     LPIC 305 Vagrant | 
+    Júlio Ballot
+  
+</title><meta name="description" content="... the advance of a non existent necessity"><meta name="author" content="Júlio Ballot">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://jrballot.github.io/posts/lpi-305-vagrant/"><meta property="og:title" content="LPIC 305 Vagrant" />
+<meta property="og:description" content="Starting this series of posts related to the new LPIC-305 Virtualization and Containerization exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.
+So, how it works &hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jrballot.github.io/posts/lpi-305-vagrant/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-10T10:16:20-03:00" />
+<meta property="article:modified_time" content="2021-03-10T10:16:20-03:00" />
+
+<meta itemprop="name" content="LPIC 305 Vagrant">
+<meta itemprop="description" content="Starting this series of posts related to the new LPIC-305 Virtualization and Containerization exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.
+So, how it works &hellip;"><meta itemprop="datePublished" content="2021-03-10T10:16:20-03:00" />
+<meta itemprop="dateModified" content="2021-03-10T10:16:20-03:00" />
+<meta itemprop="wordCount" content="3572">
+<meta itemprop="keywords" content="virtualization,labs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LPIC 305 Vagrant"/>
+<meta name="twitter:description" content="Starting this series of posts related to the new LPIC-305 Virtualization and Containerization exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.
+So, how it works &hellip;"/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://jrballot.github.io/">Júlio Ballot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">LPIC 305 Vagrant</h2>
+
+                        <div class="content">
+                            <p>Starting this series of posts related to the new <strong>LPIC-305 Virtualization and Containerization</strong> exam, we will be exploring Vagrant a development environment tool that allows a sysadmin or developer create a ready-to-use virtual environment. Vagrant is a HashiCorp, the same company that gave use Terraform, Vault, Packer, Consul, Nomad and other wonderful tools that facilitate our life.</p>
+<p>So, how it works &hellip;</p>
+<h2 id="how-vagrant-works-">How Vagrant works ?</h2>
+<p>Vagrant basically manages the lifecycle of a virtual machine, being this VM from <strong>providers</strong> like HyperV, VirtualBox, Libvirt, Parallels, VMWare or even LXC in some cases, the list is huge. It does that my leveraging the use of a Box, which is a complete pre-installed system. This system can be a GNU/Linux machine, Windows or even a MacOS, not only that you can also have customized Boxes. Let&rsquo;s say you want a classic LAMP environment read for use by your developers or a Kubernetes Cluster Box ready for some testing. You could simply create this box with every single piece of software that you want, close it, and let available for users.</p>
+<p>Normally you will find a huge variate of Boxes in the <a href="https://app.vagrantup.com/boxes/search">app.vagrantup.com/boxes/search</a> address. If you are already familiar with Docker registries like Docker Hub is the same idea, but in this case Vagrant will manage a <strong>provider</strong> and a specific box for that <strong>provider</strong>.</p>
+<figure class="figure">
+    <a href="/images/vagrant_flow.png" class="d-block" data-toggle="lightbox" data-gallery="post-gallery">
+        <img src="/images/vagrant_flow.png"class="figure-img img-fluid"
+        /> 
+    </a>
+</figure>
+
+<p>So, in the image above you see part of the Vagrant lifecycle where starting from a command like <code>vagrant up</code> or <code>vagrant box add</code>, that we will understand later in this post, a Box will be downloaded from Vagrant Cloud, kept locally and than based in a configuration file Vagrant will start to manage a provider, in this case VirtualBox, in order to deploy this new system. Keep in mind that not every single Box has support for all the providers available, for HyperV for example you will not find, by the moment I am writing this post, a updated version of a Ubuntu, Debian or even CentOS box.</p>
+<h2 id="so-what-should-we-learn-for-the-lpic-305">So what should we learn for the LPIC-305</h2>
+<p>Let&rsquo;s take a look on the topics related to Vagrant in the LPIC-305.</p>
+<p>From the LPIC-305 <a href="https://wiki.lpi.org/wiki/LPIC-305_Objectives_V3.0#353.4_Vagrant_.28weight:_3.29">wiki page</a>:</p>
+<pre><code>**Weight**:	3
+**Description**: Candidate should be able to use Vagrant to manage 
+virtual machines, including provisioning of the virtual machine.
+
+**Key Knowledge Areas**:
+
+- Understand Vagrant architecture and concepts, including storage
+  and networking
+- Retrieve and use boxes from Atlas
+- Create and run Vagrantfiles
+- Access Vagrant virtual machines
+- Share and synchronize folder between a Vagrant virtual machine 
+  and the host system
+- Understand Vagrant provisioning, i.e. File and Shell provisioners
+- Understand multi-machine setup
+
+**Partial list of the used files, terms and utilities**:
+
+- vagrant
+- Vagrantfile
+</code></pre><p>In the Key Knowledge Areas we have the first 4 items that are really simple and easy to cover. The others aren&rsquo;t that much complicated but they carry extra steps and configuration that you need to pay attention when working with Vagrant.</p>
+<p>So , let&rsquo;s start with the simple ones and gradually start covering the other with more complexity.</p>
+<h2 id="basic-use-of-vagrant">Basic use of Vagrant</h2>
+<p>First and foremost, you need to have Vagrant and VirtualBox installed in your OS being it a GNU/Linux, Windows or MacOS so go figure it out&hellip;kidding, for most GNU/Linux distros you just need to use you package management tool or download the .rpm or .deb from their websites. On Windows just go to the download page on each website to get your version and for MacOS users you can use <a href="https://brew.sh/">HomeBrew</a> and install both tools.</p>
+<p>Now, we need a space for our mess. In your preferable OS flavor, create a directory for holding our configurations files and from where we are going to run some Vagrant commands. For Windows users a strongly recommend using something in the <code>C:\</code>, CLI are <strong>NOT</strong> the strong thing on Windows and if you have some spaces or accents in your username your <code>vagrant up</code> command may fail.</p>
+<pre><code>$ mkdir lpi305lab
+$ cd lpi305lab
+lpi305lab$  
+</code></pre><p>The first step in using Vagrant is the init phase. If you just type <code>vagrant init</code> it will create a simple Vagrantfile which is the configuration file for all Vagrant actions in this directory. This file right now have some examples and options that you can enter in your Vagrantfile.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#8f5902;font-style:italic"># -*- mode: ruby -*-</span>
+<span style="color:#8f5902;font-style:italic"># vi: set ft=ruby :</span>
+
+<span style="color:#8f5902;font-style:italic"># All Vagrant configuration is done below. The &#34;2&#34; in Vagrant.configure</span>
+<span style="color:#8f5902;font-style:italic"># configures the configuration version (we support older styles for</span>
+<span style="color:#8f5902;font-style:italic"># backwards compatibility). Please don&#39;t change it unless you know what</span>
+<span style="color:#8f5902;font-style:italic"># you&#39;re doing.</span>
+<span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#8f5902;font-style:italic"># The most common configuration options are documented and commented below.</span>
+  <span style="color:#8f5902;font-style:italic"># For a complete reference, please see the online documentation at</span>
+  <span style="color:#8f5902;font-style:italic"># https://docs.vagrantup.com.</span>
+
+  <span style="color:#8f5902;font-style:italic"># Every Vagrant development environment requires a box. You can search for</span>
+  <span style="color:#8f5902;font-style:italic"># boxes at https://vagrantcloud.com/search.</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;base&#34;</span>
+
+  <span style="color:#8f5902;font-style:italic"># Disable automatic box update checking. If you disable this, then</span>
+  <span style="color:#8f5902;font-style:italic"># boxes will only be checked for updates when the user runs</span>
+  <span style="color:#8f5902;font-style:italic"># `vagrant box outdated`. This is not recommended.</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.box_check_update = false</span>
+
+  <span style="color:#8f5902;font-style:italic"># Create a forwarded port mapping which allows access to a specific port</span>
+  <span style="color:#8f5902;font-style:italic"># within the machine from a port on the host machine. In the example below,</span>
+  <span style="color:#8f5902;font-style:italic"># accessing &#34;localhost:8080&#34; will access port 80 on the guest machine.</span>
+  <span style="color:#8f5902;font-style:italic"># NOTE: This will enable public access to the opened port</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.network &#34;forwarded_port&#34;, guest: 80, host: 8080</span>
+
+  <span style="color:#8f5902;font-style:italic"># Create a forwarded port mapping which allows access to a specific port</span>
+  <span style="color:#8f5902;font-style:italic"># within the machine from a port on the host machine and only allow access</span>
+  <span style="color:#8f5902;font-style:italic"># via 127.0.0.1 to disable public access</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.network &#34;forwarded_port&#34;, guest: 80, host: 8080, host_ip: &#34;127.0.0.1&#34;</span>
+
+  <span style="color:#8f5902;font-style:italic"># Create a private network, which allows host-only access to the machine</span>
+  <span style="color:#8f5902;font-style:italic"># using a specific IP.</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.network &#34;private_network&#34;, ip: &#34;192.168.33.10&#34;</span>
+
+  <span style="color:#8f5902;font-style:italic"># Create a public network, which generally matched to bridged network.</span>
+  <span style="color:#8f5902;font-style:italic"># Bridged networks make the machine appear as another physical device on</span>
+  <span style="color:#8f5902;font-style:italic"># your network.</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.network &#34;public_network&#34;</span>
+
+  <span style="color:#8f5902;font-style:italic"># Share an additional folder to the guest VM. The first argument is</span>
+  <span style="color:#8f5902;font-style:italic"># the path on the host to the actual folder. The second argument is</span>
+  <span style="color:#8f5902;font-style:italic"># the path on the guest to mount the folder. And the optional third</span>
+  <span style="color:#8f5902;font-style:italic"># argument is a set of non-required options.</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.synced_folder &#34;../data&#34;, &#34;/vagrant_data&#34;</span>
+
+  <span style="color:#8f5902;font-style:italic"># Provider-specific configuration so you can fine-tune various</span>
+  <span style="color:#8f5902;font-style:italic"># backing providers for Vagrant. These expose provider-specific options.</span>
+  <span style="color:#8f5902;font-style:italic"># Example for VirtualBox:</span>
+  <span style="color:#8f5902;font-style:italic">#</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.provider &#34;virtualbox&#34; do |vb|</span>
+  <span style="color:#8f5902;font-style:italic">#   # Display the VirtualBox GUI when booting the machine</span>
+  <span style="color:#8f5902;font-style:italic">#   vb.gui = true</span>
+  <span style="color:#8f5902;font-style:italic">#</span>
+  <span style="color:#8f5902;font-style:italic">#   # Customize the amount of memory on the VM:</span>
+  <span style="color:#8f5902;font-style:italic">#   vb.memory = &#34;1024&#34;</span>
+  <span style="color:#8f5902;font-style:italic"># end</span>
+  <span style="color:#8f5902;font-style:italic">#</span>
+  <span style="color:#8f5902;font-style:italic"># View the documentation for the provider you are using for more</span>
+  <span style="color:#8f5902;font-style:italic"># information on available options.</span>
+
+  <span style="color:#8f5902;font-style:italic"># Enable provisioning with a shell script. Additional provisioners such as</span>
+  <span style="color:#8f5902;font-style:italic"># Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the</span>
+  <span style="color:#8f5902;font-style:italic"># documentation for more information about their specific syntax and use.</span>
+  <span style="color:#8f5902;font-style:italic"># config.vm.provision &#34;shell&#34;, inline: &lt;&lt;-SHELL</span>
+  <span style="color:#8f5902;font-style:italic">#   apt-get update</span>
+  <span style="color:#8f5902;font-style:italic">#   apt-get install -y apache2</span>
+  <span style="color:#8f5902;font-style:italic"># SHELL</span>
+<span style="color:#204a87;font-weight:bold">end</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>If you carefully read this configuration you will already understand how Vagrant works, but lets start in a more step by step approach. Remove this, file if you create it, and now run again the same command but with the <code>-m</code> option, creating than a minimal version of this Vagrantfile.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lpi305lab$ vagrant init -m
+A <span style="color:#4e9a06">`</span>Vagrantfile<span style="color:#4e9a06">`</span> has been placed in this directory. You are now
+ready to <span style="color:#4e9a06">`</span>vagrant up<span style="color:#4e9a06">`</span> your first virtual environment! Please <span style="color:#204a87">read</span>
+the comments in the Vagrantfile as well as documentation on
+<span style="color:#4e9a06">`</span>vagrantup.com<span style="color:#4e9a06">`</span> <span style="color:#204a87;font-weight:bold">for</span> more information on using Vagrant.
+</code></pre></td></tr></table>
+</div>
+</div><p>Minimal version of a Vagrantfile:</p>
+<pre><code>lpi305lab$ cat Vagrantfile
+Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.box = &quot;base&quot;
+end
+</code></pre><p>Now we only have the box definition, and we need to change it to a valid box name. To mention some boxes that I use:</p>
+<ul>
+<li>debian/buster64: Debian 10 (Buster)</li>
+<li>debian/stretch64: Debian 9 (Stretch)</li>
+<li>centos/8: CentOS 8</li>
+<li>centos/7: CentOS 7</li>
+<li>ubuntu/focal64: Ubuntu 20.04 LTS</li>
+<li>ubuntu/bionic64: Ubuntu 18.04 LTS</li>
+<li>ubuntu/xenial64: Ubuntu 16.04 LTS</li>
+</ul>
+<p>Sometimes a need to use a mix of those and also older ones for testing different environments, for example, upgrade a MongoDB from series 3.x to 4.x service in a Ubuntu 16.04. Change the base box in your Vagrantfile and use of the items above:</p>
+<pre><code>lpi305lab$ cat Vagrantfile
+Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.box = &quot;ubuntu/focal64&quot;
+end
+</code></pre><p>Now, from the same directory run <code>vagrant up</code> and wait for this machine to start.</p>
+<pre><code>lpi305lab$ vagrant up 
+...
+...
+...
+lpi305lab$ vagrant status
+Current machine states:
+
+default                   running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+</code></pre><p>We can access this machine which the <code>vagrant ssh</code> command and star using our virtual machine.</p>
+<pre><code>lpi305lab$ vagrant ssh 
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-66-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Mar 13 19:22:11 UTC 2021
+
+  System load:  0.0               Processes:               110
+  Usage of /:   3.2% of 38.71GB   Users logged in:         0
+  Memory usage: 20%               IPv4 address for enp0s3: 10.0.2.15
+  Swap usage:   0%
+
+
+1 update can be installed immediately.
+0 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+vagrant@ubuntu-focal:~$ 
+</code></pre><h2 id="storage-and-network">Storage and Network</h2>
+<p>With our machine up and running we can explore how Vagrant deals with Network and Storage. First thing, Vagrant will always manage the provider features and resources so it is limited by which provider you are using. Taking Virtualbox for example, when dealing with network you have a lot of options like: NAT Network, NAT, Bridge, Internal, Host-only. But when using Vagrant you have a <strong>private_network</strong> and <strong>public_network</strong> definition, with some options that allows you manipulate things like DHCP, port forwarding and also define the NIC you will be using in you bridge environment.</p>
+<p>Lets create a new network definition for our environment:</p>
+<pre><code>lpi305lab$ cat Vagrantfile
+Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.box = &quot;ubuntu/focal64&quot;
+  config.vm.hostname = &quot;focal&quot;
+  config.vm.network &quot;private_network&quot;, ip: &quot;192.168.200.200&quot;
+end
+</code></pre><p>This configuration will set our virtual machine hostname, meaning /etc/hosts defining the name used in the loopback interface. It will also define our network as private, with will isolate this machine in a virtual network restricted to you host only.</p>
+<p>Just restart the virtual machine with the sequence <code>vagrant halt &amp;&amp; vagrant up</code> and than check the configurations:</p>
+<pre><code>vagrant@ubunutfocal:~$ cat /etc/hosts
+127.0.0.1	localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1	ip6-localhost	ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+ff02::3	ip6-allhosts
+127.0.1.1	ubunutfocal.example.com	ubunutfocal
+
+vagrant@ubunutfocal:~$ hostname -I
+10.0.2.15 192.168.200.200
+</code></pre><h3 id="growing-your-lab">Growing your Lab</h3>
+<p>Now that we know how to run one single VM, let me expand this lab so that you can create a small network of VMs. Because Vagrant was written in Ruby the Vagrantfile also support a lot of resources from this language, so that we can use dictionaries and lists in our advantage in order to bring small VM definitions that are going to be used to create out virtual environment.</p>
+<p>Before anything, destroy your current lab with <code>vagrant destroy</code> command. And the configure you Vagrantfile as follow:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">vms</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#4e9a06">&#34;vm1&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">=&gt;</span><span style="color:#4e9a06">&#34;192.168.200.200&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;box&#34;</span><span style="color:#ce5c00;font-weight:bold">=&gt;</span><span style="color:#4e9a06">&#34;ubuntu/focal64&#34;</span><span style="color:#000;font-weight:bold">},</span>
+  <span style="color:#4e9a06">&#34;vm2&#34;</span> <span style="color:#ce5c00;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">=&gt;</span><span style="color:#4e9a06">&#34;192.168.200.201&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;box&#34;</span><span style="color:#ce5c00;font-weight:bold">=&gt;</span><span style="color:#4e9a06">&#34;centos/8&#34;</span><span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+
+  <span style="color:#000">vms</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">each</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#204a87">name</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+      <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;box&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+      <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#204a87">name</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">.example.com&#34;</span>
+      <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">#{</span><span style="color:#000">conf</span><span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;ip&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
+    <span style="color:#204a87;font-weight:bold">end</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+<span style="color:#204a87;font-weight:bold">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This new configuration will create 2 machines in the same network running Ubuntu and CentOS, each one with your on hostname configuration based in the key element in the <strong>vms</strong> dictionary. The <strong>vms.each</strong> is a loop that will go through the <strong>vms</strong> getting its <strong>name</strong> (key) and <strong>conf</strong> (value) and applying those to the now deployed virtual machine.</p>
+<p>The main instruction here is the <strong>config.vm.define</strong> which allow us to use <strong>Multi-Machine</strong> definition to create a environment with multiple VMs. The same Vagrantfile could be written like following:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm1&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;ubuntu/focal64&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm1.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.200&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm2&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;centos/8&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm2.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.201&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+<span style="color:#204a87;font-weight:bold">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="syncing-folders-with-your-lab">Syncing Folders with your Lab</h3>
+<p>Another nice feature that Vagrant give us is syncing folders with our labs. Basically we are already doing this without knowing, Vagrant will always sync your current folder, the one you have you <code>Vagrantfile</code> and run your <code>vagrant</code> commands, with you each virtual machine under the path <code>/vagrant/</code>:</p>
+<pre><code>lpic305lab$ vagrant ssh vm1
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-66-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Mar 17 01:31:12 UTC 2021
+
+  System load:  0.0               Processes:               111
+  Usage of /:   3.2% of 38.71GB   Users logged in:         0
+  Memory usage: 19%               IPv4 address for enp0s3: 10.0.2.15
+  Swap usage:   0%                IPv4 address for enp0s8: 192.168.200.200
+
+
+1 update can be installed immediately.
+0 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+vagrant@vm1:~$ ls /vagrant/
+Vagrantfile
+vagrant@vm1:~$ cat /vagrant/Vagrantfile 
+Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.define &quot;vm1&quot; do |this|
+    this.vm.box = &quot;ubuntu/focal64&quot;
+    this.vm.hostname = &quot;vm1.example.com&quot;
+    this.vm.network &quot;private_network&quot;, ip: &quot;192.168.200.200&quot;
+  end
+
+  config.vm.define &quot;vm2&quot; do |this|
+    this.vm.box = &quot;centos/8&quot;
+    this.vm.hostname = &quot;vm2.example.com&quot;
+    this.vm.network &quot;private_network&quot;, ip: &quot;192.168.200.201&quot;
+  end
+end
+vagrant@vm1:~$
+</code></pre><p>We can also sync other directories by using the <code>config.vm.synced_folder</code> instruction in our Vagrantfile like the following:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm1&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;ubuntu/focal64&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm1.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.200&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm2&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;centos/8&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm2.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.201&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+  
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">synced_folder</span> <span style="color:#4e9a06">&#34;src/&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;/var/www/html&#34;</span>
+   
+<span style="color:#204a87;font-weight:bold">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Now create this <code>src</code> folder the same place you have you Vagrantfile, and them add a index.html file with the content:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">html</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">head</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">title</span><span style="color:#000;font-weight:bold">&gt;</span>Simple Sync Example using Vagrant Synced Folder<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">title</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">head</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">body</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">h1</span><span style="color:#000;font-weight:bold">&gt;</span>Synced Folder<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">h1</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">table</span> <span style="color:#c4a000">style</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;widht:100%&#34;</span><span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">tr</span><span style="color:#000;font-weight:bold">&gt;</span>
+      <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>Origin<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>
+      <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>Destination (VM)<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">tr</span><span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">tr</span><span style="color:#000;font-weight:bold">&gt;</span>
+      <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>./src/<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>
+      <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>/var/www/html<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">th</span><span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">tr</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">table</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">body</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#204a87;font-weight:bold">html</span><span style="color:#000;font-weight:bold">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Then use the <code>vagrant reload vm1</code> to re-sync this folder. After that ssh in the <strong>vm1</strong> and install Nginx. Then try to open the address 192.168.200.200 in you browser to see if the index.html from your <strong>src/</strong> folder got rendered, like the one bellow:</p>
+<blockquote>
+<p>You will probably receive a error after running vagrant reload in vm2. That&rsquo;s because VM2 as a CentOS 8 that doesn&rsquo;t have VirtualBox Guest Additions package installed. I will not cover this step at this moment.</p>
+</blockquote>
+<figure class="figure">
+    <a href="/images/synced_folder_vagrant.png" class="d-block" data-toggle="lightbox" data-gallery="post-gallery">
+        <img src="/images/synced_folder_vagrant.png"class="figure-img img-fluid"
+        /> 
+    </a>
+</figure>
+
+<p>For more options about syncing folder try to <a href="https://www.vagrantup.com/docs/synced-folders">look here</a></p>
+<h3 id="provision">Provision</h3>
+<p>Another aspect of Vagrant is the capacity of running a great deal of provisioning solutions, like Puppet, Ansible, Chef, Salt, CFEngine and ShellScrip. You also have some options in the container realm, at the moment Podman and Docker. I will cover the use of File and Shell Scripting provision, but I highly recommend to take a look at Chef,Ansible and Puppet.</p>
+<p>Provision normally run when the VM is being built so if we want to force this processes with our already created VMs we should instead use the <code>provision</code> argument. We are going to run some examples so don&rsquo;t worry.</p>
+<h4 id="provisioning-with-file">Provisioning with File</h4>
+<p>File provisioning is a simple way to copy your local files to a certain destination in you Vagrant VM. For instance:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;file&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;src/&#34;</span> <span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;/var/www/html&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This is going to have the same result as the sync method we used previously. Lets change it in out Vagrantfile and test.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm1&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;ubuntu/focal64&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm1.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.200&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm2&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;centos/8&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm2.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.201&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+  
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;file&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;src/&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;/var/www/html&#34;</span>
+   
+<span style="color:#204a87;font-weight:bold">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Now you just need to run <code>vagrant provision</code>, this will start the provisioning step that we created. Always use this command if you want to rerun you provisioning phase.</p>
+<p>This will lead to a error:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lpic305lab$ vagrant <span style="color:#000">provision</span>
+<span style="color:#ce5c00;font-weight:bold">==</span>&gt; vm1: Running provisioner: file...
+    vm1: src/. <span style="color:#ce5c00;font-weight:bold">=</span>&gt; /var/www/html/
+Failed to upload a file to the guest VM via SCP due to a permissions
+error. This is normally because the SSH user doesn<span style="color:#a40000">&#39;</span>t have permission
+to write to the destination location. Alternately, the user running
+Vagrant on the host machine may not have permission to <span style="color:#204a87">read</span> the file.
+
+Source: /home/jrballot/lpic305lab/src/
+Dest: /var/www/html/
+</code></pre></td></tr></table>
+</div>
+</div><p>Has the message said we do not have permission to copy this content to the /var/www/html folder. That&rsquo;s because the steps inside the VM are running with the vagrant user and this destination folder is managed by the root account. From the Vagrant documentation:</p>
+<blockquote>
+<p>The file uploads by the file provisioner are done as the SSH or PowerShell user. This is important since these users generally do not have elevated privileges on their own. If you want to upload files to locations that require elevated privileges, we recommend uploading them to temporary locations and then using the shell provisioner to move them into place.</p>
+</blockquote>
+<p>So let&rsquo;s move to our next step and create a second provisioning step that will move this content to the right place.</p>
+<h3 id="provisioning-with-shell-script">Provisioning with Shell Script</h3>
+<p>Shell Script is THE language in the UNIX or GNU/Linux environment, everyone working or studding Linux should take it seriously and if not started yet I will strongly recommend you do &hellip; :) .</p>
+<p>You basically have 2 options for provisioning with Shell Script: inline or path. The first you&rsquo;ll define you script inside the Vagrantfile whilst the other will run a external script, being it in you host or in a URL.  Let&rsquo;s explore the first, make the following changes to your Vagrantfile:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;file&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">source</span><span style="color:#000;font-weight:bold">:</span><span style="color:#4e9a06">&#34;src/&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#4e9a06">destination</span><span style="color:#000;font-weight:bold">:</span><span style="color:#4e9a06">&#34;/tmp/htmlsrc&#34;</span>
+<span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;shell&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">inline</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sudo cp -r /tmp/htmlsrc/* /var/www/html/&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>And run again <code>vagrant provision</code>:</p>
+<pre><code>lpic305lab$ vagrant provision
+==&gt; vm1: Running provisioner: file...
+    vm1: src/. =&gt; /tmp/htmlsrc
+==&gt; vm1: Running provisioner: shell...
+    vm1: Running: inline script
+==&gt; vm2: Running provisioner: file...
+    vm2: src/. =&gt; /tmp/htmlsrc
+==&gt; vm2: Running provisioner: shell...
+    vm2: Running: inline script
+</code></pre><p>Now you&rsquo;ll have both machines it the index.html provisioned by the File and Shell Script method. But let&rsquo;s say you want to pass some argument to each script so that you could have some customization in you index.html. For this we&rsquo;ll neeed to change your script provision step a little bit.</p>
+<pre><code>config.vm.provision &quot;shell&quot; do |shell|
+  shell.inline = 'echo &quot;&lt;h1&gt;This is machine $1&lt;/h1&gt;&quot; &gt; /var/www/html/index.html'
+  shell.args = [&quot;$(hostname)&quot;]
+end
+</code></pre><p>What this piece of code is doing is create a new index.html inside you /var/www/html/ folder but now with the hostname generated by the sub shell passed as argument. One important information is present here, Vagrant will run this shell and the arguments inside the VM and not in the host system, leading to each having your on customized index.html file.</p>
+<p>Let&rsquo;s complement this example using a external shell that will guarantee the Nginx installed in each machine. This script will be called externally using the path method, so in a new file named <strong>install_nginx.sh</strong>and past the content that follow:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic">#!/bin/bash
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#204a87">source</span> /etc/os-release
+
+<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Starting Nginx install process in a </span><span style="color:#000">$ID</span><span style="color:#4e9a06"> machine ...&#34;</span>
+
+<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">[</span> <span style="color:#000">$ID</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;debian&#34;</span> <span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">||</span> <span style="color:#ce5c00;font-weight:bold">[</span> <span style="color:#000">$ID</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;ubuntu&#34;</span> <span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">then</span>
+  sudo apt-get update
+  sudo apt-get install nginx -y
+<span style="color:#204a87;font-weight:bold">elif</span> <span style="color:#ce5c00;font-weight:bold">[</span> <span style="color:#000">$ID</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;centos&#34;</span> <span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">then</span>
+  sudo dnf install nginx -y
+  sudo systemctl <span style="color:#204a87">enable</span> nginx
+  sudo systemctl start nginx
+<span style="color:#204a87;font-weight:bold">else</span>
+  <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Could NOT identify the running distribution, ABORTING!!!&#34;</span>
+  <span style="color:#204a87">exit</span> <span style="color:#0000cf;font-weight:bold">1</span>
+<span style="color:#204a87;font-weight:bold">fi</span>
+
+<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;...finished&#34;</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>And we have to upgrade our Vagrantfile with some changes:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#000">Vagrant</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">configure</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;2&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">|</span>
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm1&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;ubuntu/focal64&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm1.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.200&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">define</span> <span style="color:#4e9a06">&#34;vm2&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">box</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;centos/8&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">hostname</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;vm2.example.com&#34;</span>
+    <span style="color:#000">this</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">network</span> <span style="color:#4e9a06">&#34;private_network&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">ip</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;192.168.200.201&#34;</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;shell&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">path</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;install_nginx.sh&#34;</span>
+
+  <span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">vm</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">provision</span> <span style="color:#4e9a06">&#34;shell&#34;</span> <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#ce5c00;font-weight:bold">|</span><span style="color:#000">shell</span><span style="color:#ce5c00;font-weight:bold">|</span>
+    <span style="color:#000">shell</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">inline</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#39;echo &#34;&lt;h1&gt;This is machine $1&lt;h1/&gt;&#34; &gt; /var/www/html/index.html&#39;</span>
+    <span style="color:#000">shell</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">args</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;$(hostname)&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>
+  <span style="color:#204a87;font-weight:bold">end</span>
+
+<span style="color:#204a87;font-weight:bold">end</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>This way we are going to have a shell to install Nginx according to the distro we are using on each machine and also a inline step that will change the configuration.</p>
+<p>So, this is the end of this part of my preparation to the LPIC-305 v3 Virtualization and Containerization related to the Vagrant topic. Of course, there are other solutions for doing the same thins, for example, you could use a Docker and Docker-Compose and get to the same result, and even talking about virtual machines you have Packer for customizing your cloud images. Nevertheless, this was about Vagrant environment with a small part of this exam, so do not skip it.</p>
+<p>Thanks by reading :)</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="mailto:julio.ballot@gmail.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/jrballot" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/julioballot/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright &copy; Júlio Ballot 2021
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
+</body>
+</html>

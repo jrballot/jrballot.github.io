@@ -6,7 +6,27 @@
     <description>Recent content on Júlio Ballot</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Mar 2021 10:16:20 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 20:58:37 -0300</lastBuildDate><atom:link href="https://jrballot.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lpi 305 Container Virtualization Concepts</title>
+      <link>https://jrballot.github.io/posts/lpi-305-container-virtualization-concepts/</link>
+      <pubDate>Thu, 25 Mar 2021 20:58:37 -0300</pubDate>
+      
+      <guid>https://jrballot.github.io/posts/lpi-305-container-virtualization-concepts/</guid>
+      <description>&lt;p&gt;Container Virtualization is here to stay and you should get familiar with it. Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. And we should not forget about Container Orchestration using different tools like Mesos, Kubernetes, Docker Swarm, Rancher and OpenShift, and why not through cloud solutions like EKS, GKS and AKS. For this post we&amp;rsquo;re going to focus on understand the base concepts behind containers, using as base the LPIC 305 - Container Virtualization Concepts topics.&lt;/p&gt;
+&lt;p&gt;So, let&amp;rsquo;s roll&amp;hellip; :)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Lpi 305 LXC</title>
+      <link>https://jrballot.github.io/posts/lpi-305-lxc/</link>
+      <pubDate>Thu, 25 Mar 2021 19:47:29 -0300</pubDate>
+      
+      <guid>https://jrballot.github.io/posts/lpi-305-lxc/</guid>
+      <description>&lt;p&gt;Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. For this post we&amp;rsquo;re going to focus on understand the use of LXC.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s get it on&amp;hellip; :)&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>LPIC 305 Vagrant</title>
       <link>https://jrballot.github.io/posts/lpi-305-vagrant/</link>

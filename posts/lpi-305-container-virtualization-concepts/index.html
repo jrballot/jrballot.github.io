@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Lpi 305 Container Virtualization Concepts | 
+    Júlio Ballot
+  
+</title><meta name="description" content="... the advance of a non existent necessity"><meta name="author" content="Júlio Ballot">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://jrballot.github.io/posts/lpi-305-container-virtualization-concepts/"><meta property="og:title" content="Lpi 305 Container Virtualization Concepts" />
+<meta property="og:description" content="Container Virtualization is here to stay and you should get familiar with it. Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. And we should not forget about Container Orchestration using different tools like Mesos, Kubernetes, Docker Swarm, Rancher and OpenShift, and why not through cloud solutions like EKS, GKS and AKS. For this post we&rsquo;re going to focus on understand the base concepts behind containers, using as base the LPIC 305 - Container Virtualization Concepts topics.
+So, let&rsquo;s roll&hellip; :)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jrballot.github.io/posts/lpi-305-container-virtualization-concepts/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-25T20:58:37-03:00" />
+<meta property="article:modified_time" content="2021-03-25T20:58:37-03:00" />
+
+<meta itemprop="name" content="Lpi 305 Container Virtualization Concepts">
+<meta itemprop="description" content="Container Virtualization is here to stay and you should get familiar with it. Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. And we should not forget about Container Orchestration using different tools like Mesos, Kubernetes, Docker Swarm, Rancher and OpenShift, and why not through cloud solutions like EKS, GKS and AKS. For this post we&rsquo;re going to focus on understand the base concepts behind containers, using as base the LPIC 305 - Container Virtualization Concepts topics.
+So, let&rsquo;s roll&hellip; :)"><meta itemprop="datePublished" content="2021-03-25T20:58:37-03:00" />
+<meta itemprop="dateModified" content="2021-03-25T20:58:37-03:00" />
+<meta itemprop="wordCount" content="1137">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lpi 305 Container Virtualization Concepts"/>
+<meta name="twitter:description" content="Container Virtualization is here to stay and you should get familiar with it. Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. And we should not forget about Container Orchestration using different tools like Mesos, Kubernetes, Docker Swarm, Rancher and OpenShift, and why not through cloud solutions like EKS, GKS and AKS. For this post we&rsquo;re going to focus on understand the base concepts behind containers, using as base the LPIC 305 - Container Virtualization Concepts topics.
+So, let&rsquo;s roll&hellip; :)"/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://jrballot.github.io/">Júlio Ballot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">Lpi 305 Container Virtualization Concepts</h2>
+
+                        <div class="content">
+                            <p>Container Virtualization is here to stay and you should get familiar with it. Nowaday you have different solutions for dealing with containerized environments, for instance, Docker, LXC, buildah, podman and many others. And we should not forget about Container Orchestration using different tools like Mesos, Kubernetes, Docker Swarm, Rancher and OpenShift, and why not through cloud solutions like EKS, GKS and AKS. For this post we&rsquo;re going to focus on understand the base concepts behind containers, using as base the LPIC 305 - Container Virtualization Concepts topics.</p>
+<p>So, let&rsquo;s roll&hellip; :)</p>
+<p>For the LPIC - 305 Container Virtualization Concepts topics we have:</p>
+<p><strong>Weight</strong>: 7
+<strong>Description</strong>: Candidates should understand the concept of container virtualization. This includes understanding the Linux components used to implement container virtualization as well as using standard Linux tools to troubleshoot these components.</p>
+<p><strong>Key Knowledge Areas</strong>:</p>
+<ul>
+<li>Understand the concepts of system and application container</li>
+<li>Understand and analyze kernel namespaces</li>
+<li>Understand and analyze control groups</li>
+<li>Understand and analyze capabilities</li>
+<li>Understand the role of seccomp, SELinux and AppArmor for container virtualization</li>
+<li>Understand how LXC and Docker leverage namespaces, cgroups, capabilities, seccomp and MAC</li>
+<li>Understand the principle of runc</li>
+<li>Understand the principle of CRI-O and containerd</li>
+<li>Awareness of the OCI runtime and image specifications</li>
+<li>Awareness of the Kubernetes Container Runtime Interface (CRI)</li>
+<li>Awareness of podman, buildah and skopeo</li>
+<li>Awareness of other container virtualization approaches in Linux and other free operating systems, such as rkt, OpenVZ, systemd-nspawn or BSD Jails</li>
+</ul>
+<p><strong>The following is a partial list of the used files, terms and utilities</strong>:</p>
+<ul>
+<li>nsenter</li>
+<li>unshare</li>
+<li>ip (including relevant subcommands)</li>
+<li>capsh</li>
+<li>/sys/fs/cgroups</li>
+<li>/proc/[0-9]+/ns</li>
+<li>/proc/[0-9]+/status</li>
+</ul>
+<h2 id="understanding-containers">Understanding Containers</h2>
+<p>Understanding the basics of conteiners are not so complicated, of course you could go ahead and read any basic tutorial or Getting Started with Docker and in 1 or 2 hours you will be fine with containers - I hightly recommend the Docker Getting Started from the Docker documentation for this. But, if you stop there, you&rsquo;ll only understand the use of a frontend tool and not the base techs that allows you to run a container, and by that I mean understand what a cgroup is, or how namespaces allows you to isolate your network from the containers networks and also what&rsquo;s a runtime and why I need one.</p>
+<p>So, let&rsquo;s starts the following:</p>
+<ul>
+<li>Control Groups</li>
+<li>Kernel Namespaces</li>
+<li>Containers Capabilities</li>
+</ul>
+<h3 id="linux-control-groups-cgroups">Linux Control Groups, cgroups</h3>
+<p>From the GNU/Linux man page we have that cgroups are:</p>
+<blockquote>
+<p>Linux kernel feature which allow processes to be organized into hierarchical groups whose usage of various types of resources can then be limited and monitored</p>
+</blockquote>
+<p>Which means that with cgroups we can have processes&rsquo;s resources such as CPU time, memory  and bandwidth controlled, monitored and limited. For example, if you&rsquo;re running a task that is going to take some time to finish but you also want to guarantee that it will not consume all your memory or cpu, you could easly run it within a cgroup with limits for memory and cpu time usage.</p>
+<p>In your GNU/Linux environment you can take a look at what cgroups controllers you already have by listing the content of the <code>/sys/fs/cgroup/</code> folder:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~$ ls /sys/fs/cgroup/
+blkio  cpuacct      cpuset   freezer  memory   net_cls,net_prio  perf_event  rdma     unified
+cpu    cpu,cpuacct  devices  hugetlb  net_cls  net_prio          pids        systemd
+</code></pre></td></tr></table>
+</div>
+</div><p>If we take for example memory:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~$ ls -1F /sys/fs/cgroup/memory/
+cgroup.clone_children
+cgroup.event_control
+cgroup.procs
+cgroup.sane_behavior
+docker/
+foo/
+memory.failcnt
+memory.force_empty
+memory.kmem.failcnt
+memory.kmem.limit_in_bytes
+memory.kmem.max_usage_in_bytes
+memory.kmem.slabinfo
+memory.kmem.tcp.failcnt
+memory.kmem.tcp.limit_in_bytes
+memory.kmem.tcp.max_usage_in_bytes
+memory.kmem.tcp.usage_in_bytes
+memory.kmem.usage_in_bytes
+memory.limit_in_bytes
+memory.max_usage_in_bytes
+memory.memsw.failcnt
+memory.memsw.limit_in_bytes
+memory.memsw.max_usage_in_bytes
+memory.memsw.usage_in_bytes
+memory.move_charge_at_immigrate
+memory.numa_stat
+memory.oom_control
+memory.pressure_level
+memory.soft_limit_in_bytes
+memory.stat
+memory.swappiness
+memory.usage_in_bytes
+memory.use_hierarchy
+notify_on_release
+release_agent
+system.slice/
+tasks
+user.slice/
+</code></pre></td></tr></table>
+</div>
+</div><p>We will find a list of limiters that can be applyed to a process. For example, the <strong>memory.limit_in_bytes</strong> that will limite the amount of memory that a process can use, or the <strong>memory.swappiness</strong> for the swap relation that the system is using. And the folders inside this directory are just <strong>systemd</strong> unit types for resource control. In this case we have:</p>
+<ul>
+<li><strong>Services</strong>: For systemd services</li>
+<li><strong>Scope</strong>: A group of externally created processes. For example, user sessions, containers, and virtual machines.</li>
+<li><strong>Slice</strong>: Organize a hierarchy in which scopes and services are placed.</li>
+</ul>
+<p>This way, if we take a look at the contant of the user.slice folder we will see a group of files and also the <strong>user-1000.slice</strong> which have a <strong>session-1.scope</strong>:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~$ ls -1F /sys/fs/cgroup/memory/user.slice/user-1000.slice/
+cgroup.clone_children
+cgroup.event_control
+cgroup.procs
+memory.failcnt
+memory.force_empty
+memory.kmem.failcnt
+memory.kmem.limit_in_bytes
+memory.kmem.max_usage_in_bytes
+memory.kmem.slabinfo
+memory.kmem.tcp.failcnt
+memory.kmem.tcp.limit_in_bytes
+memory.kmem.tcp.max_usage_in_bytes
+memory.kmem.tcp.usage_in_bytes
+memory.kmem.usage_in_bytes
+memory.limit_in_bytes
+memory.max_usage_in_bytes
+memory.memsw.failcnt
+memory.memsw.limit_in_bytes
+memory.memsw.max_usage_in_bytes
+memory.memsw.usage_in_bytes
+memory.move_charge_at_immigrate
+memory.numa_stat
+memory.oom_control
+memory.pressure_level
+memory.soft_limit_in_bytes
+memory.stat
+memory.swappiness
+memory.usage_in_bytes
+memory.use_hierarchy
+notify_on_release
+session-1.scope/
+tasks
+<span style="color:#4e9a06">&#39;user@1000.service&#39;</span>/
+</code></pre></td></tr></table>
+</div>
+</div><p>If you run a <code>cat</code> command on the <strong>tasks</strong> file inside this folder you will be presented with all the processes that you session is holding. In my case I can se the PID 1764 that run the ssh-agent:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~$ cat /sys/fs/cgroup/memory/user.slice/user-1000.slice/session-1.scope/tasks 
+<span style="color:#0000cf;font-weight:bold">1440</span>
+<span style="color:#0000cf;font-weight:bold">1441</span>
+<span style="color:#0000cf;font-weight:bold">1442</span>
+<span style="color:#0000cf;font-weight:bold">1467</span>
+<span style="color:#0000cf;font-weight:bold">1468</span>
+<span style="color:#0000cf;font-weight:bold">1470</span>
+<span style="color:#0000cf;font-weight:bold">1472</span>
+<span style="color:#0000cf;font-weight:bold">1473</span>
+<span style="color:#0000cf;font-weight:bold">1474</span>
+<span style="color:#0000cf;font-weight:bold">1582</span>
+<span style="color:#0000cf;font-weight:bold">1584</span>
+<span style="color:#0000cf;font-weight:bold">1585</span>
+<span style="color:#0000cf;font-weight:bold">1586</span>
+<span style="color:#0000cf;font-weight:bold">1587</span>
+<span style="color:#0000cf;font-weight:bold">1588</span>
+<span style="color:#0000cf;font-weight:bold">1589</span>
+<span style="color:#0000cf;font-weight:bold">1590</span>
+<span style="color:#0000cf;font-weight:bold">1591</span>
+<span style="color:#0000cf;font-weight:bold">1592</span>
+<span style="color:#0000cf;font-weight:bold">1593</span>
+<span style="color:#0000cf;font-weight:bold">1594</span>
+<span style="color:#0000cf;font-weight:bold">1595</span>
+<span style="color:#0000cf;font-weight:bold">1596</span>
+<span style="color:#0000cf;font-weight:bold">1597</span>
+<span style="color:#0000cf;font-weight:bold">1598</span>
+<span style="color:#0000cf;font-weight:bold">1599</span>
+<span style="color:#0000cf;font-weight:bold">1600</span>
+<span style="color:#0000cf;font-weight:bold">1601</span>
+<span style="color:#0000cf;font-weight:bold">1602</span>
+<span style="color:#0000cf;font-weight:bold">1603</span>
+<span style="color:#0000cf;font-weight:bold">1604</span>
+<span style="color:#0000cf;font-weight:bold">1612</span>
+<span style="color:#0000cf;font-weight:bold">1665</span>
+<span style="color:#0000cf;font-weight:bold">1666</span>
+<span style="color:#0000cf;font-weight:bold">1668</span>
+<span style="color:#0000cf;font-weight:bold">1746</span>
+<span style="color:#0000cf;font-weight:bold">1844</span>
+<span style="color:#0000cf;font-weight:bold">1845</span>
+<span style="color:#0000cf;font-weight:bold">1856</span>
+~$ cat /proc/1746/comm
+ssh-agent
+</code></pre></td></tr></table>
+</div>
+</div><p>Another way to check this hierarchy is by running the <code>systemd-cgls</code> command:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~$ systemd-cgls
+...
+...
+...
+│   └─1768 /usr/libexec/gvfs-afc-volume-monitor
+│   └─session-1.scope 
+│     ├─1440 gdm-session-worker <span style="color:#ce5c00;font-weight:bold">[</span>pam/gdm-autologin<span style="color:#ce5c00;font-weight:bold">]</span>
+│     ├─1467 /usr/bin/gnome-keyring-daemon --daemonize --login
+│     ├─1472 /usr/lib/gdm3/gdm-x-session --run-script env <span style="color:#000">GNOME_SHELL_SESSION_MODE</span><span style="color:#ce5c00;font-weight:bold">=</span>pop /usr/bin/gnome-ses&gt;
+│     ├─1474 /usr/lib/xorg/Xorg vt2 -displayfd <span style="color:#0000cf;font-weight:bold">3</span> -auth /run/user/1000/gdm/Xauthority -background none -no&gt;
+│     ├─1668 /usr/libexec/gnome-session-binary --systemd --systemd --session<span style="color:#ce5c00;font-weight:bold">=</span>pop
+│     └─1746 /usr/bin/ssh-agent /usr/bin/im-launch env <span style="color:#000">GNOME_SHELL_SESSION_MODE</span><span style="color:#ce5c00;font-weight:bold">=</span>pop /usr/bin/gnome-sessio&gt;
+├─init.scope 
+...
+...
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>And for monitoring the cgroups resource consuption you could use the <code>systemd-cgtop</code> command, which will return an output like the one bellow:</p>
+<pre><code>Control Group                               Tasks   %CPU   Memory  Input/s Output/s
+user.slice                                    759    8.7     4.1G        -        -
+/                                            1184    4.0     6.5G        -        -
+system.slice                                  163    2.1     1.6G        -        -
+system.slice/acpid.service                      1    1.3   684.0K        -        -
+system.slice/systemd-logind.service             1    0.7     7.3M        -        -
+system.slice/systemd-journald.service           1    0.1    82.6M        -        -
+system.slice/containerd.service                42    0.0   103.9M        -        -
+system.slice/system76-power.service            17    0.0     6.0M        -        -
+</code></pre><h2 id="namespaces">Namespaces</h2>
+<p>Boundaries of a process</p>
+<p>lsns
+/proc/*/ns
+unshared -&gt; runs a program in a namespace unshared from its parent process.
+nsenter -&gt; enter the namespaces of one or more processes and than executes the specified program.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="mailto:julio.ballot@gmail.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/jrballot" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/julioballot/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright &copy; Júlio Ballot 2021
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
+</body>
+</html>
